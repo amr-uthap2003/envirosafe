@@ -1,0 +1,182 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Segoe UI,sans-serif;
+}
+
+body {
+  background: #f4f8fb;
+}
+
+/* Header */
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 70px;
+  background: white;
+  box-shadow: 0 3px 10px rgba(0,0,0,.1);
+}
+
+.logo {
+  font-size: 30px;
+  font-weight: bold;
+  color: #0f7b46;
+}
+
+  .logo span {
+    margin-left: 5px;
+  }
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+  nav a {
+    text-decoration: none;
+    color: #444;
+    font-weight: 600;
+  }
+
+    nav a:hover {
+      color: #0f7b46;
+    }
+
+.login-btn {
+  padding: 10px 22px;
+  border: 2px solid #0f7b46;
+  background: white;
+  color: #0f7b46;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+.register-btn {
+  padding: 10px 22px;
+  border: none;
+  background: #0f7b46;
+  color: white;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+/* Hero */
+
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 80px;
+}
+
+.left {
+  width: 50%;
+}
+
+  .left h1 {
+    font-size: 50px;
+    line-height: 65px;
+    color: #1b1b1b;
+  }
+
+  .left p {
+    margin: 30px 0;
+    font-size: 20px;
+    color: #666;
+    line-height: 35px;
+  }
+
+.start-btn {
+  padding: 15px 40px;
+  background: #0f7b46;
+  color: white;
+  border: none;
+  border-radius: 35px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+  .start-btn:hover {
+    background: #0b6037;
+  }
+
+.right {
+  width: 40%;
+  text-align: center;
+}
+
+  .right img {
+    width: 430px;
+  }
+
+/* Cards */
+
+.cards {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  padding: 50px 70px;
+}
+
+.card {
+  background: white;
+  padding: 35px;
+  width: 320px;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,.08);
+  transition: .3s;
+}
+
+  .card:hover {
+    transform: translateY(-8px);
+  }
+
+  .card h2 {
+    color: #0f7b46;
+    margin-bottom: 15px;
+  }
+
+  .card p {
+    color: #666;
+    line-height: 28px;
+  }
+.login-btn,
+.register-btn {
+  display: inline-block;
+  padding: 10px 25px;
+  border: 2px solid #15803d;
+  border-radius: 30px;
+  text-decoration: none;
+  background: white;
+  color: #15803d;
+  font-weight: 600;
+  transition: 0.3s ease;
+  margin-left: 10px;
+}
+
+  .login-btn.active,
+  .register-btn.active {
+    background: #15803d;
+    color: white;
+  }
+.register-btn {
+  display: inline-block;
+  background: white;
+  color: #15803d;
+  border: 2px solid #15803d;
+  padding: 10px 28px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+  .register-btn:hover {
+    background: #15803d;
+    color: white;
+  }

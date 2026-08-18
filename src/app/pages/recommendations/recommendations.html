@@ -1,0 +1,29 @@
+<app-layout>
+
+  <div class="rec-container">
+
+    <div class="page-header">
+      <div>
+        <h1>Recommendations</h1>
+        <p class="subtitle">Corrective actions based on current compliance and risk data</p>
+      </div>
+
+      <a routerLink="/industry-manager-dashboard" class="back-btn">
+        ← Back to Dashboard
+      </a>
+    </div>
+
+    <div class="rec-list">
+      <div class="rec-card" *ngFor="let rec of recommendations">
+        <div class="rec-header">
+          <span class="badge" [ngClass]="getPriorityClass(rec.priority)">{{ rec.priority }}</span>
+          <span class="category">{{ rec.category }}</span>
+        </div>
+        <h3>{{ rec.title }}</h3>
+        <p>{{ rec.description }}</p>
+      </div>
+    </div>
+
+  </div>
+
+</app-layout>

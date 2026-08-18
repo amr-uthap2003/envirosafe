@@ -1,0 +1,66 @@
+.page {
+  font-family: Arial, Helvetica, sans-serif;
+  max-width: 600px;
+}
+
+.page-header h1 {
+  margin: 0;
+  color: #12372a;
+  font-size: 28px;
+}
+
+.subtitle {
+  margin-top: 6px;
+  color: #6c757d;
+}
+
+.form-card {
+  background: white;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  margin-top: 20px;
+}
+
+.form-row {
+  margin-bottom: 18px;
+}
+
+  .form-row label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #12372a;
+  }
+
+  .form-row select,
+  .form-row textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid #d8e3e0;
+    font-size: 14px;
+    font-family: inherit;
+  }
+
+  .form-row textarea {
+    resize: vertical;
+  }
+
+.submit-btn {
+  width: 100%;
+  background: #087f5b;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+  .submit-btn:hover {
+    background: #066647;
+  }

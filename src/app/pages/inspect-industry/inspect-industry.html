@@ -1,0 +1,54 @@
+<app-inspector-layout>
+
+  <div class="page">
+
+    <div class="page-header">
+      <h1>Inspect Industry</h1>
+      <p class="subtitle">Review an industry and record your compliance findings</p>
+    </div>
+
+    <div class="form-card">
+
+      <div *ngIf="error" class="alert alert-error">{{ error }}</div>
+
+      <div class="form-row">
+        <label>Select Industry *</label>
+        <select [(ngModel)]="selectedIndustryId" [disabled]="loading">
+          <option [ngValue]="null" disabled>{{ loading ? 'Loading industries...' : 'Choose an industry' }}</option>
+          <option *ngFor="let ind of industries" [ngValue]="ind.id">
+            {{ ind.name }} — {{ ind.location }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label>Compliance Status</label>
+        <select [(ngModel)]="complianceStatus">
+          <option value="Compliant">Compliant</option>
+          <option value="Non-Compliant">Non-Compliant</option>
+          <option value="Under Review">Under Review</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label>Risk Level</label>
+        <select [(ngModel)]="riskLevel">
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label>Violation Notes (optional)</label>
+        <textarea [(ngModel)]="violationNotes" rows="4" placeholder="Describe any violations or observations..."></textarea>
+      </div>
+
+      <button class="submit-btn" (click)="submitInspection()">Submit Inspection</button>
+
+    </div>
+
+  </div>
+
+</app-inspector-layout>
+s

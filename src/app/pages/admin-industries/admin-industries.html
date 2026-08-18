@@ -1,0 +1,52 @@
+<app-admin-layout>
+
+  <div class="page">
+
+    <div class="page-header">
+      <div>
+        <h1>Manage Industries</h1>
+        <p class="subtitle">View and manage all registered industries</p>
+      </div>
+      <button class="add-btn">+ Add Industry</button>
+    </div>
+
+    <div class="table-card">
+      <table class="industries-table">
+        <thead>
+          <tr>
+            <th>Industry Name</th>
+            <th>Type</th>
+            <th>Manager</th>
+            <th>Status</th>
+            <th>Compliance</th>
+            <th>Risk Level</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ind of industries">
+            <td>
+              <strong>{{ ind.name }}</strong>
+              <div class="location">{{ ind.location }}</div>
+            </td>
+            <td>{{ ind.type }}</td>
+            <td>{{ ind.manager }}</td>
+            <td>
+              <span class="status-dot" [class.active]="ind.status === 'Active'"></span>
+              {{ ind.status }}
+            </td>
+            <td>
+              <span class="badge" [ngClass]="complianceClass(ind.complianceStatus)">
+                {{ ind.complianceStatus }}
+              </span>
+            </td>
+            <td>
+              <span [ngClass]="riskClass(ind.riskLevel)">{{ ind.riskLevel }}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</app-admin-layout>

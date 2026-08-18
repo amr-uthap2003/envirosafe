@@ -1,0 +1,50 @@
+<div class="layout">
+
+  <aside class="sidebar">
+
+    <div class="logo">
+      🌿 <span>EnviroSafe</span>
+    </div>
+
+    <div class="profile">
+      <div class="avatar">E</div>
+      <div class="profile-info">
+        <h3>Employee</h3>
+        <p>Factory Staff</p>
+      </div>
+    </div>
+
+    <nav>
+
+      <a routerLink="/employee-dashboard"
+         routerLinkActive="active"
+         [routerLinkActiveOptions]="{ exact: true }">
+        📊
+        <span>Dashboard</span>
+      </a>
+
+      <a routerLink="/submit-reading"
+         routerLinkActive="active">
+        📝
+        <span>Submit Reading</span>
+      </a>
+
+      <a routerLink="/my-submissions"
+         routerLinkActive="active">
+        📄
+        <span>My Submissions</span>
+      </a>
+
+    </nav>
+
+    <button class="logout" (click)="logout()">
+      🚪 Logout
+    </button>
+
+  </aside>
+
+  <main class="layout-content">
+    <ng-content></ng-content>
+  </main>
+
+</div>

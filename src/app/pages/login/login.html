@@ -1,0 +1,73 @@
+<div class="login-container">
+
+  <h2>Login</h2>
+
+  <form (ngSubmit)="login()">
+
+    <div class="input-box">
+
+      <label>Username</label>
+
+      <input type="text"
+             name="username"
+             [(ngModel)]="username"
+             (input)="validateUsername()"
+             placeholder="Enter Username">
+
+      <small class="error"
+             *ngIf="usernameError">
+
+        {{ usernameError }}
+
+      </small>
+
+    </div>
+
+
+    <div class="input-box">
+
+      <label>Email</label>
+
+      <input type="email"
+             name="email"
+             [(ngModel)]="email"
+             (input)="validateEmail()"
+             placeholder="Enter Email">
+
+      <small class="error"
+             *ngIf="emailError">
+
+        {{ emailError }}
+
+      </small>
+
+    </div>
+
+
+    <div class="input-box">
+
+      <label>Password</label>
+
+      <input type="password"
+             name="password"
+             [(ngModel)]="password"
+             (input)="validatePassword()"
+             placeholder="Enter Password">
+
+      <small class="error"
+             *ngIf="passwordError">
+
+        {{ passwordError }}
+
+      </small>
+
+    </div>
+
+
+    <button type="submit">
+      Login
+    </button>
+
+  </form>
+
+</div>

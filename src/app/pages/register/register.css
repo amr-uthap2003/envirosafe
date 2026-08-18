@@ -1,0 +1,240 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background: #f4f7f9;
+}
+
+.register-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  background: linear-gradient(rgba(255,255,255,.75), rgba(255,255,255,.75)), url("https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1600&q=80");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.register-box {
+  width: 450px;
+  background: rgba(255,255,255,.95);
+  backdrop-filter: blur(12px);
+  border-radius: 25px;
+  padding: 40px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.25);
+  border: 1px solid rgba(255,255,255,.5);
+  transition: .4s;
+}
+
+  .register-box:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 70px rgba(0,0,0,.30);
+  }
+
+  .register-box h2 {
+    text-align: center;
+    color: #15803d;
+    margin-bottom: 10px;
+  }
+
+.register-box {
+  width: 430px;
+  background: #fff;
+  padding: 40px;
+  border-radius: 18px;
+  box-shadow: 0 15px 40px rgba(0,0,0,.12);
+  transition: .3s;
+}
+  .register-box:hover {
+    transform: translateY(-5px);
+  }
+
+.input-group {
+  margin-bottom: 18px;
+}
+
+  .input-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+
+  .input-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+  }
+
+    .input-group input:focus {
+      outline: none;
+      border-color: #15803d;
+    }
+
+.signup-btn {
+  width: 100%;
+  padding: 13px;
+  background: #15803d;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: .3s;
+}
+
+  .signup-btn:hover {
+    background: #0f6b32;
+  }
+
+.login-text {
+  margin-top: 20px;
+  text-align: center;
+}
+
+  .login-text a {
+    color: #15803d;
+    text-decoration: none;
+    font-weight: bold;
+  }
+/* Google Button */
+
+.google-btn {
+  width: 100%;
+  margin-top: 15px;
+  padding: 13px;
+  border: 1px solid #ddd;
+  background: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  transition: .3s;
+}
+
+  .google-btn:hover {
+    background: #f5f5f5;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(0,0,0,.12);
+  }
+
+/* Divider */
+
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 25px 0;
+}
+
+  .divider::before,
+  .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #ddd;
+  }
+
+  .divider span {
+    margin: 0 15px;
+    color: #888;
+    font-size: 14px;
+  }
+.logo {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 20px;
+  background: #15803d;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 34px;
+  color: white;
+}
+.error {
+  display: block;
+  color: #e53935;
+  font-size: 12px;
+  margin-top: 5px;
+  font-weight: 500;
+}
+.input-group input.valid-input {
+  border-color: #2e7d32;
+}
+
+.input-group input.invalid-input {
+  border-color: #c62828;
+}
+
+.error {
+  display: block;
+  color: #c62828;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.success {
+  display: block;
+  color: #2e7d32;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.password-checklist {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0 0;
+  font-size: 12px;
+}
+
+  .password-checklist li {
+    padding-left: 18px;
+    position: relative;
+    margin-bottom: 3px;
+    color: #999;
+    transition: color 0.2s ease;
+  }
+
+    .password-checklist li.valid {
+      color: #2e7d32;
+    }
+
+    .password-checklist li.invalid {
+      color: #c62828;
+    }
+
+    .password-checklist li.valid::before {
+      content: "✔";
+      position: absolute;
+      left: 0;
+    }
+
+    .password-checklist li.invalid::before {
+      content: "✖";
+      position: absolute;
+      left: 0;
+    }
+.input-group select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: white;
+  box-sizing: border-box;
+}
+
+  .input-group select:focus {
+    outline: none;
+    border-color: #4caf50;
+  }

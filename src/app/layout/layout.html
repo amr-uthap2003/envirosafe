@@ -1,0 +1,74 @@
+<div class="layout">
+
+  <aside class="sidebar">
+
+    <div class="logo">
+      🌿 <span>EnviroSafe</span>
+    </div>
+
+    <div class="profile">
+      <div class="avatar">IM</div>
+      <div class="profile-info">
+        <h3>Radhika</h3>
+        <p>Industry Manager</p>
+      </div>
+    </div>
+
+    <nav>
+
+      <a routerLink="/industry-manager-dashboard"
+         routerLinkActive="active"
+         [routerLinkActiveOptions]="{ exact: true }">
+        📊
+        <span>Dashboard</span>
+      </a>
+
+      <a routerLink="/manage-industries"
+         routerLinkActive="active">
+        🏭
+        <span>Industries</span>
+      </a>
+
+      <a routerLink="/compliance-standards"
+         routerLinkActive="active">
+        📋
+        <span>Compliance Standards</span>
+      </a>
+
+      <a routerLink="/environmental-data"
+         routerLinkActive="active">
+        🌱
+        <span>Environmental Data</span>
+      </a>
+
+      <a routerLink="/risk-prediction"
+         routerLinkActive="active">
+        ⚠️
+        <span>Risk Prediction</span>
+      </a>
+
+      <a routerLink="/recommendations"
+         routerLinkActive="active">
+        💡
+        <span>Recommendations</span>
+      </a>
+
+      <a routerLink="/reports"
+         routerLinkActive="active">
+        📑
+        <span>Reports</span>
+      </a>
+
+    </nav>
+
+    <button class="logout" (click)="logout()">
+      🚪 Logout
+    </button>
+
+  </aside>
+
+  <main class="layout-content">
+    <ng-content></ng-content>
+  </main>
+
+</div>

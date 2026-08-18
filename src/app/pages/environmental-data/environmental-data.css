@@ -1,0 +1,234 @@
+* {
+  box-sizing: border-box;
+}
+
+.environmental-container {
+  min-height: 100vh;
+  background: #f4f8f7;
+  padding: 35px 50px;
+  font-family: Arial, sans-serif;
+  color: #073f32;
+}
+
+/* Header */
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+  .page-header h1 {
+    margin: 0;
+    font-size: 32px;
+    color: #064b3c;
+  }
+
+  .page-header p {
+    margin-top: 8px;
+    color: #71827d;
+    font-size: 15px;
+  }
+
+.back-btn {
+  background: #e1f4ee;
+  color: #08795d;
+  padding: 12px 20px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+  .back-btn:hover {
+    background: #ccebe1;
+  }
+
+
+/* Industry Information */
+
+.industry-info {
+  background: white;
+  border-radius: 18px;
+  padding: 24px 28px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 18px rgba(0, 70, 50, 0.07);
+}
+
+  .industry-info span {
+    display: block;
+    color: #7b8985;
+    font-size: 13px;
+    margin-bottom: 7px;
+  }
+
+  .industry-info strong {
+    color: #064b3c;
+    font-size: 17px;
+  }
+
+
+/* Main Card */
+
+.data-card {
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 4px 18px rgba(0, 70, 50, 0.08);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+  .card-header h2 {
+    margin: 0;
+    color: #064b3c;
+    font-size: 24px;
+  }
+
+  .card-header p {
+    margin: 7px 0 0;
+    color: #71827d;
+  }
+
+.view-only {
+  background: #e1f4ee;
+  color: #08795d;
+  padding: 9px 15px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+
+/* Data Grid */
+
+.data-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.data-item {
+  display: flex;
+  gap: 16px;
+  padding: 22px;
+  background: #f7faf9;
+  border: 1px solid #e2eeea;
+  border-radius: 15px;
+}
+
+.data-icon {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  border-radius: 12px;
+  background: #dff4ed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 23px;
+}
+
+.data-content h3 {
+  margin: 0 0 5px;
+  color: #064b3c;
+  font-size: 17px;
+}
+
+.data-content p {
+  margin: 0 0 12px;
+  color: #7b8985;
+  font-size: 13px;
+}
+
+.data-content strong {
+  display: block;
+  color: #08795d;
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+
+/* Status */
+
+.status {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 15px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+  .status.good {
+    background: #dff7ed;
+    color: #08795d;
+  }
+
+  .status.warning {
+    background: #fff1d9;
+    color: #a86b00;
+  }
+
+
+/* Information Box */
+
+.info-box {
+  margin-top: 22px;
+  background: #e7f6f1;
+  border-left: 5px solid #0b9b75;
+  border-radius: 10px;
+  padding: 17px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #35665a;
+}
+
+  .info-box p {
+    margin: 0;
+  }
+
+
+/* Responsive */
+
+@media (max-width: 1000px) {
+
+  .data-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .industry-info {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+
+  .environmental-container {
+    padding: 25px 20px;
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .data-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+}

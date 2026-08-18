@@ -1,0 +1,78 @@
+<app-inspector-layout>
+
+  <main class="main">
+
+    <header class="header">
+      <div>
+        <h1>Inspector Dashboard</h1>
+        <p>Review industries and record compliance inspections</p>
+      </div>
+    </header>
+
+    <section class="welcome">
+      <div>
+        <h2>Welcome 👋</h2>
+        <p>Inspect assigned industries, verify compliance, and flag violations when standards aren't met.</p>
+      </div>
+      <div class="earth">🔍</div>
+    </section>
+
+    <section class="stats">
+
+      <div class="stat-card">
+        <div class="stat-icon warning">⏳</div>
+        <div>
+          <p>Pending Inspections</p>
+          <h2>{{ pendingInspections }}</h2>
+          <span>Awaiting review</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">✅</div>
+        <div>
+          <p>Completed This Month</p>
+          <h2>{{ completedThisMonth }}</h2>
+          <span>Inspections done</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon danger">🚩</div>
+        <div>
+          <p>Flagged Violations</p>
+          <h2>{{ flaggedViolations }}</h2>
+          <span>Need follow-up</span>
+        </div>
+      </div>
+
+    </section>
+
+    <section class="card">
+      <div class="card-title">
+        <div>
+          <h3>Quick Actions</h3>
+          <p>Start a new inspection or review history</p>
+        </div>
+      </div>
+
+      <div class="actions">
+
+        <button routerLink="/inspect-industry">
+          <span class="action-icon">🔍</span>
+          <strong>Inspect Industry</strong>
+          <small>Review and record a new inspection</small>
+        </button>
+
+        <button routerLink="/my-inspections">
+          <span class="action-icon">📄</span>
+          <strong>My Inspections</strong>
+          <small>View your inspection history</small>
+        </button>
+
+      </div>
+    </section>
+
+  </main>
+
+</app-inspector-layout>

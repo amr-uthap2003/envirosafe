@@ -1,0 +1,64 @@
+<app-layout>
+  <div class="page">
+    <div class="page-header">
+      <div>
+        <h1>Manage Industries</h1>
+        <p class="subtitle">Add and view registered industries</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Add New Industry</h3>
+
+      <div *ngIf="error" class="alert alert-error">{{ error }}</div>
+      <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+
+      <div class="form-row">
+        <input type="text"
+               placeholder="Industry Name"
+               [(ngModel)]="newName"
+               class="form-input" />
+        <input type="text"
+               placeholder="Location"
+               [(ngModel)]="newLocation"
+               class="form-input" />
+        <input type="text"
+               placeholder="Type (e.g. Manufacturing, Chemical)"
+               [(ngModel)]="newType"
+               class="form-input" />
+        <button class="add-btn" (click)="addIndustry()">Add Industry</button>
+      </div>
+    </div>
+
+    <div class="table-card">
+      <div *ngIf="loading">Loading industries...</div>
+
+      <table *ngIf="!loading" class="industries-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Location</th>
+            <th>Type</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let industry of industries">
+            <td>{{ industry.id }}</td>
+            <td>{{ industry.name }}</td>
+            <td>{{ industry.location }}</td>
+            <td>{{ industry.type }}</td>
+            <td>
+              <button class="delete-btn" (click)="deleteIndustry(industry.id)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div *ngIf="!loading && industries.length === 0" class="empty-state">
+        No industries added yet.
+      </div>
+    </div>
+  </div>
+</app-layout>

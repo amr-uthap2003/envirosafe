@@ -1,0 +1,62 @@
+<div class="layout">
+
+  <aside class="sidebar">
+
+    <div class="logo">
+      🌿 <span>EnviroSafe</span>
+    </div>
+
+    <div class="profile">
+      <div class="avatar">A</div>
+      <div class="profile-info">
+        <h3>Admin</h3>
+        <p>Administrator</p>
+      </div>
+    </div>
+
+    <nav>
+
+      <a routerLink="/admin-dashboard"
+         routerLinkActive="active"
+         [routerLinkActiveOptions]="{ exact: true }">
+        📊
+        <span>Dashboard</span>
+      </a>
+
+      <a routerLink="/manage-users"
+         routerLinkActive="active">
+        👤
+        <span>Manage Users</span>
+      </a>
+
+      <a routerLink="/admin-industries"
+         routerLinkActive="active">
+        🏭
+        <span>Manage Industries</span>
+      </a>
+
+      <a routerLink="/admin-compliance-standards"
+         routerLinkActive="active">
+        📋
+        <span>Compliance Standards</span>
+      </a>
+
+      <a routerLink="/admin-reports"
+         routerLinkActive="active">
+        📑
+        <span>Reports</span>
+      </a>
+
+    </nav>
+
+    <button class="logout" (click)="logout()">
+      🚪 Logout
+    </button>
+
+  </aside>
+
+  <main class="layout-content">
+    <ng-content></ng-content>
+  </main>
+
+</div>

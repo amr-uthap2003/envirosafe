@@ -1,0 +1,84 @@
+.risk-container {
+  padding: 24px;
+}
+
+.subtitle {
+  color: #6b7280;
+  margin-bottom: 20px;
+}
+
+.overall-card {
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 24px;
+  color: #fff;
+}
+
+  .overall-card.low {
+    background: #10b981;
+  }
+
+  .overall-card.medium {
+    background: #f59e0b;
+  }
+
+  .overall-card.high {
+    background: #ef4444;
+  }
+
+.risk-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+  .risk-table th, .risk-table td {
+    text-align: left;
+    padding: 12px 16px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  color: #fff;
+}
+
+  .badge.low {
+    background: #10b981;
+  }
+
+  .badge.medium {
+    background: #f59e0b;
+  }
+
+  .badge.high {
+    background: #ef4444;
+  }
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.back-btn {
+  background: #e5f3ee;
+  color: #0f766e;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: none;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+  .back-btn:hover {
+    background: #d3ece3;
+  }

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EnviroSafe Dashboard</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background: linear-gradient(to right, #e8f5e9, #f1f8e9);
+      color: #333;
+    }
+
+    .dashboard {
+      padding: 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .welcome-banner {
+      text-align: center;
+      background: linear-gradient(135deg, #4caf50, #81c784);
+      color: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      animation: fadeIn 1.5s ease;
+    }
+
+    .stats {
+      display: flex;
+      justify-content: space-around;
+      margin: 30px 0;
+      flex-wrap: wrap;
+    }
+
+    .card {
+      flex: 1;
+      min-width: 200px;
+      margin: 10px;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      color: white;
+      font-weight: bold;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
+    }
+
+      .card:hover {
+        transform: scale(1.05);
+      }
+
+    .green {
+      background: #4caf50;
+    }
+
+    .red {
+      background: #f44336;
+    }
+
+    .orange {
+      background: #ff9800;
+    }
+
+    .blue {
+      background: #2196f3;
+    }
+
+    .features, .risk-section, .activities, .tips, .analytics, .goals {
+      margin: 40px 0;
+    }
+
+    h2 {
+      border-bottom: 2px solid #4caf50;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      color: #2e7d32;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .feature-card {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+
+      .feature-card:hover {
+        transform: translateY(-5px);
+      }
+
+    .risk-cards {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+    }
+
+    .risk {
+      flex: 1;
+      min-width: 250px;
+      margin: 10px;
+      padding: 20px;
+      border-radius: 10px;
+      color: white;
+      text-align: center;
+    }
+
+    .low {
+      background: #4caf50;
+    }
+
+    .medium {
+      background: #ffeb3b;
+      color: #333;
+    }
+
+    .high {
+      background: #f44336;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+      ul li {
+        background: #f1f8e9;
+        margin: 10px 0;
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard">
+
+    <div class="welcome-banner">
+      <h1>🌿 Welcome to EnviroSafe Dashboard</h1>
+      <p>Smart AI-Based Environmental Compliance Monitoring & Risk Prediction System</p>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats">
+      <div class="card green"><h2>98%</h2><p>✔ Overall Compliance Rate</p></div>
+      <div class="card red"><h2>12</h2><p>⚠ High Risk Industries</p></div>
+      <div class="card orange"><h2>35</h2><p>📝 Inspections Completed</p></div>
+      <div class="card blue"><h2>28</h2><p>📄 Generated Reports</p></div>
+    </div>
+
+    <!-- Features -->
+    <section class="features">
+      <h2>🌍 Environmental Monitoring Modules</h2>
+      <div class="feature-grid">
+        <div class="feature-card"><h3>🌫 Air Quality Monitoring</h3><p>Real-time CO₂, AQI, dust & pollution tracking.</p></div>
+        <div class="feature-card"><h3>💧 Water Quality Monitoring</h3><p>Analyze pH, TDS, dissolved oxygen & more.</p></div>
+        <div class="feature-card"><h3>♻ Waste Management</h3><p>Track waste generation & disposal compliance.</p></div>
+        <div class="feature-card"><h3>🌡 Temperature & Humidity</h3><p>IoT sensors for industrial safety monitoring.</p></div>
+        <div class="feature-card"><h3>🤖 AI Risk Prediction</h3><p>Rule-based AI predicts Low, Medium, High risks.</p></div>
+        <div class="feature-card"><h3>📊 Smart Reports</h3><p>Automated compliance summaries & analytics.</p></div>
+      </div>
+    </section>
+
+    <!-- Risk Section -->
+    <section class="risk-section">
+      <h2>🚨 Environmental Risk Status</h2>
+      <div class="risk-cards">
+        <div class="risk low"><h3>🟢 Low Risk</h3><p>Industry meets all compliance standards.</p></div>
+        <div class="risk medium"><h3>🟡 Medium Risk</h3><p>Minor violations detected. Preventive action advised.</p></div>
+        <div class="risk high"><h3>🔴 High Risk</h3><p>Serious violations detected. Immediate action required.</p></div>
+      </div>
+    </section>
+
+    <!-- Activities -->
+    <section class="activities">
+      <h2>📅 Recent Activities</h2>
+      <ul>
+        <li>✅ Air Quality Inspection completed for ABC Industries.</li>
+        <li>✅ Water Quality Report generated successfully.</li>
+        <li>⚠ High Pollution Alert detected in Industrial Zone 3.</li>
+        <li>♻ Waste Disposal inspection updated.</li>
+        <li>📄 Monthly Compliance Report exported.</li>
+        <li>🤖 AI predicted Medium Risk for XYZ Chemicals.</li>
+      </ul>
+    </section>
+
+    <!-- Analytics -->
+    <section class="analytics">
+      <h2>📊 Analytics & Trends</h2>
+      <p>Interactive charts showing pollution trends, compliance growth, and risk distribution.</p>
+    </section>
+
+    <!-- Goals -->
+    <section class="goals">
+      <h2>🌱 Sustainability Goals</h2>
+      <div class="feature-grid">
+        <div class="feature-card"><h3>⚡ Renewable Energy</h3><p>Encourage industries to adopt solar & wind energy.</p></div>
+        <div class="feature-card"><h3>🌳 Green Initiatives</h3><p>Promote tree plantation drives & eco-friendly practices.</p></div>
+        <div class="feature-card"><h3>🚯 Zero Waste</h3><p>Target 100% recycling & minimal landfill waste.</p></div>
+      </div>
+    </section>
+
+    <!-- Tips -->
+    <section class="tips">
+      <h2>🌱 Environmental Safety Tips</h2>
+      <div class="feature-grid">
+        <div class="feature-card"><h3>💨 Reduce Air Pollution</h3><p>Maintain industrial filters & monitor emissions.</p></div>
+        <div class="feature-card"><h3>💧 Save Water</h3><p>Reuse treated wastewater whenever possible.</p></div>
+        <div class="feature-card"><h3>♻ Proper Waste Disposal</h3><p>Segregate hazardous & non-hazardous waste.</p></div>
+      </div>
+    </section>
+
+  </div>
+</body>
+</html>

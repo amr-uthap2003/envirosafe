@@ -1,0 +1,78 @@
+<app-employee-layout>
+
+  <main class="main">
+
+    <header class="header">
+      <div>
+        <h1>Employee Dashboard</h1>
+        <p>Record and track environmental checks for your assigned industry</p>
+      </div>
+    </header>
+
+    <section class="welcome">
+      <div>
+        <h2>Welcome 👋</h2>
+        <p>Log environmental readings from the factory floor and keep track of your submission history.</p>
+      </div>
+      <div class="earth">🏭</div>
+    </section>
+
+    <section class="stats">
+
+      <div class="stat-card">
+        <div class="stat-icon">🏭</div>
+        <div>
+          <p>Assigned Industry</p>
+          <h2>{{ assignedIndustry }}</h2>
+          <span>Your workplace</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">📄</div>
+        <div>
+          <p>Total Submissions</p>
+          <h2>{{ totalSubmissions }}</h2>
+          <span>Readings logged</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">🕒</div>
+        <div>
+          <p>Last Submission</p>
+          <h2 class="small-text">{{ lastSubmissionDate }}</h2>
+          <span>Most recent entry</span>
+        </div>
+      </div>
+
+    </section>
+
+    <section class="card">
+      <div class="card-title">
+        <div>
+          <h3>Quick Actions</h3>
+          <p>Record new data or view your history</p>
+        </div>
+      </div>
+
+      <div class="actions">
+
+        <button routerLink="/submit-reading">
+          <span class="action-icon">📝</span>
+          <strong>Submit Reading</strong>
+          <small>Log a new environmental check</small>
+        </button>
+
+        <button routerLink="/my-submissions">
+          <span class="action-icon">📄</span>
+          <strong>My Submissions</strong>
+          <small>View your submission history</small>
+        </button>
+
+      </div>
+    </section>
+
+  </main>
+
+</app-employee-layout>

@@ -1,0 +1,158 @@
+* {
+  box-sizing: border-box;
+}
+
+.main {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.header h1 {
+  margin: 0;
+  color: #12372a;
+  font-size: 28px;
+}
+
+.header p {
+  margin-top: 7px;
+  color: #6c757d;
+}
+
+.welcome {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, #087f5b, #20a77a);
+  color: white;
+  padding: 30px;
+  border-radius: 18px;
+  margin: 25px 0;
+}
+
+  .welcome h2 {
+    margin: 0 0 10px;
+  }
+
+  .welcome p {
+    margin: 0;
+    max-width: 650px;
+    line-height: 1.6;
+  }
+
+.earth {
+  font-size: 60px;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.stat-card {
+  background: white;
+  padding: 22px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+  min-height: 92px;
+}
+
+.stat-icon {
+  width: 55px;
+  height: 55px;
+  border-radius: 14px;
+  background: #e5f7f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 27px;
+}
+
+  .stat-icon.warning {
+    background: #fff3e0;
+  }
+
+.stat-card p {
+  margin: 0 0 5px;
+  color: #777;
+  font-size: 13px;
+}
+
+.stat-card h2 {
+  margin: 0 0 5px;
+  color: #12372a;
+}
+
+.stat-card span {
+  color: #999;
+  font-size: 11px;
+}
+
+.card {
+  background: white;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.card-title h3 {
+  margin: 0;
+  color: #12372a;
+}
+
+.card-title p {
+  margin: 6px 0 20px;
+  color: #777;
+  font-size: 13px;
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+  .actions button {
+    border: 1px solid #e4e4e4;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    text-align: left;
+    transition: 0.3s;
+  }
+
+    .actions button:hover {
+      transform: translateY(-3px);
+      border-color: #087f5b;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    }
+
+.action-icon {
+  display: block;
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+
+.actions strong {
+  display: block;
+  color: #12372a;
+  margin-bottom: 7px;
+}
+
+.actions small {
+  color: #777;
+}
+
+@media (max-width: 1000px) {
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .actions {
+    grid-template-columns: 1fr;
+  }
+}

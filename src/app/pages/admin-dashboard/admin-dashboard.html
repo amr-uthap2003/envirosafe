@@ -1,0 +1,93 @@
+<app-admin-layout>
+
+  <main class="main">
+
+    <header class="header">
+      <div>
+        <h1>Admin Dashboard</h1>
+        <p>Manage users, industries, and system-wide compliance settings</p>
+      </div>
+    </header>
+
+    <section class="welcome">
+      <div>
+        <h2>Welcome back, Admin 👋</h2>
+        <p>Oversee all Industry Managers, Inspectors, and registered industries from one place.</p>
+      </div>
+      <div class="earth">🛡️</div>
+    </section>
+
+    <section class="stats">
+
+      <div class="stat-card">
+        <div class="stat-icon">👤</div>
+        <div>
+          <p>Total Users</p>
+          <h2>{{ totalUsers }}</h2>
+          <span>All registered accounts</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">🏭</div>
+        <div>
+          <p>Industries</p>
+          <h2>{{ totalIndustries }}</h2>
+          <span>Registered industries</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon warning">⏳</div>
+        <div>
+          <p>Pending Approvals</p>
+          <h2>{{ pendingApprovals }}</h2>
+          <span>Awaiting review</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">🔍</div>
+        <div>
+          <p>Active Inspectors</p>
+          <h2>{{ activeInspectors }}</h2>
+          <span>Currently assigned</span>
+        </div>
+      </div>
+
+    </section>
+
+    <section class="card">
+      <div class="card-title">
+        <div>
+          <h3>Quick Actions</h3>
+          <p>Common administrative tasks</p>
+        </div>
+      </div>
+
+      <div class="actions">
+
+        <button routerLink="/manage-users">
+          <span class="action-icon">👤</span>
+          <strong>Manage Users</strong>
+          <small>Add, edit, or remove accounts</small>
+        </button>
+
+        <button routerLink="/manage-industries">
+          <span class="action-icon">🏭</span>
+          <strong>Manage Industries</strong>
+          <small>View all registered industries</small>
+        </button>
+
+        <button routerLink="/compliance-standards">
+          <span class="action-icon">📋</span>
+          <strong>Compliance Standards</strong>
+          <small>Configure environmental limits</small>
+        </button>
+
+      </div>
+    </section>
+
+  </main>
+
+</app-admin-layout>

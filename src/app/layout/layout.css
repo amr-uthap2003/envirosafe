@@ -1,0 +1,142 @@
+* {
+  box-sizing: border-box;
+}
+
+.layout {
+  display: flex;
+  min-height: 100vh;
+  background: #f4f7f6;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.sidebar {
+  width: 260px;
+  flex-shrink: 0;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #063b2a, #087f5b);
+  color: white;
+  padding: 25px 18px;
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 24px;
+  font-weight: bold;
+  padding: 10px;
+  margin-bottom: 30px;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 10px;
+  margin-bottom: 25px;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+  .profile h3 {
+    margin: 0;
+    font-size: 15px;
+  }
+
+  .profile p {
+    margin: 5px 0 0;
+    font-size: 12px;
+    opacity: 0.8;
+  }
+
+.avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  background: white;
+  color: #087f5b;
+  flex-shrink: 0;
+}
+
+nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+  nav a {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 13px 14px;
+    border-radius: 10px;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 14px;
+  }
+
+    nav a:hover {
+      background: rgba(255,255,255,0.15);
+    }
+
+    nav a.active {
+      background: white;
+      color: #087f5b;
+      font-weight: bold;
+    }
+
+.logout {
+  margin-top: 20px;
+  padding: 13px;
+  border: none;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.15);
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+  .logout:hover {
+    background: rgba(255,255,255,0.25);
+  }
+
+.layout-content {
+  flex: 1;
+  min-width: 0;
+  padding: 25px 35px;
+  overflow-x: hidden;
+}
+
+@media (max-width: 800px) {
+  .sidebar {
+    width: 210px;
+    padding: 20px 14px;
+  }
+
+  .layout-content {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    min-height: auto;
+    position: relative;
+  }
+}

@@ -1,0 +1,117 @@
+<div class="page">
+
+  <!-- Page header -->
+  <div class="page-header">
+    <div>
+      <h1>Reports</h1>
+      <p class="subtitle">View, filter, and generate compliance reports for your industries</p>
+    </div>
+  </div>
+
+  <button class="back-btn" (click)="goBack()">← Back to Dashboard</button>
+
+  <!-- Banner -->
+  <div class="banner">
+    <div>
+      <h2>Compliance Reports</h2>
+      <p>Track monthly, quarterly, and incident reports across all industries under your responsibility.</p>
+    </div>
+    <div class="banner-icon">📄</div>
+  </div>
+
+  <!-- Summary stats -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <span class="stat-label">Total Reports</span>
+      <span class="stat-value">{{ totalReports }}</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">Compliant</span>
+      <span class="stat-value stat-compliant">{{ compliantCount }}</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">Non-Compliant</span>
+      <span class="stat-value stat-noncompliant">{{ nonCompliantCount }}</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">Under Review</span>
+      <span class="stat-value stat-review">{{ underReviewCount }}</span>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-bar">
+    <input type="text"
+           class="search-input"
+           placeholder="Search by industry name or type..."
+           [(ngModel)]="searchTerm"
+           (ngModelChange)="applyFilters()" />
+
+    <select class="filter-select" [(ngModel)]="statusFilter" (ngModelChange)="applyFilters()">
+      <option value="All">All Statuses</option>
+      <option value="Compliant">Compliant</option>
+      <option value="Non-Compliant">Non-Compliant</option>
+      <option value="Under Review">Under Review</option>
+    </select>
+
+    <select class="filter-select" [(ngModel)]="riskFilter" (ngModelChange)="applyFilters()">
+      <option value="All">All Risk Levels</option>
+      <option value="Low">Low</option>
+      <option value="Medium">Medium</option>
+      <option value="High">High</option>
+    </select>
+
+    <button class="reset-btn" (click)="resetFilters()">Reset</button>
+
+    <button class="generate-btn" (click)="generateNewReport()">+ Generate Report</button>
+  </div>
+
+  <!-- Report cards -->
+  <div class="report-list" *ngIf="filteredReports.length > 0; else noResults">
+    <div class="report-card" *ngFor="let report of filteredReports">
+
+      <div class="report-card-header">
+        <div class="report-title-group">
+          <div class="report-icon">🏭</div>
+          <div>
+            <h3>{{ report.industryName }}</h3>
+            <p class="report-type-line">{{ report.industryType }} • {{ report.reportType }} Report</p>
+          </div>
+        </div>
+        <span class="badge" [ngClass]="statusClass(report.complianceStatus)">
+          {{ report.complianceStatus }}
+        </span>
+      </div>
+
+      <p class="report-summary">{{ report.summary }}</p>
+
+      <div class="report-details">
+        <div class="detail-block">
+          <span class="detail-label">📅 Report Date</span>
+          <span class="detail-value">{{ report.reportDate }}</span>
+        </div>
+        <div class="detail-block">
+          <span class="detail-label">⚠ Risk Level</span>
+          <span class="detail-value" [ngClass]="riskClass(report.riskLevel)">{{ report.riskLevel }}</span>
+        </div>
+        <div class="detail-block">
+          <span class="detail-label">🚩 Active Violations</span>
+          <span class="detail-value">{{ report.activeViolations }}</span>
+        </div>
+      </div>
+
+      <div class="report-actions">
+        <button class="download-btn" (click)="downloadReport(report)">⬇ Download Report</button>
+      </div>
+
+    </div>
+  </div>
+
+  <ng-template #noResults>
+    <div class="empty-state">
+      <p>No reports match your filters.</p>
+      <button class="reset-btn" (click)="resetFilters()">Clear Filters</button>
+    </div>
+  </ng-template>
+
+</div>

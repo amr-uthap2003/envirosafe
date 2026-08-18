@@ -1,0 +1,261 @@
+<app-admin-layout>
+
+  <div class="page">
+
+    <!-- =====================================================
+         PAGE HEADER
+    ====================================================== -->
+
+    <div class="page-header">
+
+      <div>
+        <h1>Manage Users</h1>
+
+        <p class="subtitle">
+          View registered users and manage their system roles
+        </p>
+      </div>
+
+      <button class="add-btn"
+              (click)="refreshUsers()">
+
+        ↻ Refresh Users
+
+      </button>
+
+    </div>
+
+
+    <!-- =====================================================
+         SUCCESS MESSAGE
+    ====================================================== -->
+
+    <div class="success-message"
+         *ngIf="successMessage">
+
+      ✓ {{ successMessage }}
+
+    </div>
+
+
+    <!-- =====================================================
+         ERROR MESSAGE
+    ====================================================== -->
+
+    <div class="error-message"
+         *ngIf="error">
+
+      ⚠ {{ error }}
+
+    </div>
+
+
+    <!-- =====================================================
+         FILTERS
+    ====================================================== -->
+
+    <div class="filters-bar">
+
+      <input type="text"
+             class="search-input"
+             placeholder="Search by name, username or email..."
+             [(ngModel)]="searchTerm" />
+
+
+      <select class="filter-select"
+              [(ngModel)]="roleFilter">
+
+        <option value="All">
+          All Roles
+        </option>
+
+        <option value="Admin">
+          Admin
+        </option>
+
+        <option value="Inspector">
+          Inspector
+        </option>
+
+        <option value="Employee">
+          Employee
+        </option>
+
+        <option value="Industry Manager">
+          Industry Manager
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <!-- =====================================================
+         LOADING
+    ====================================================== -->
+
+    <div class="loading-state"
+         *ngIf="loading">
+
+      <div class="loader"></div>
+
+      <p>Loading registered users...</p>
+
+    </div>
+
+
+    <!-- =====================================================
+         USERS TABLE
+    ====================================================== -->
+
+    <div class="table-card"
+         *ngIf="!loading && !error">
+
+      <table class="users-table">
+
+        <thead>
+
+          <tr>
+
+            <th>ID</th>
+
+            <th>Full Name</th>
+
+            <th>Username</th>
+
+            <th>Email</th>
+
+            <th>Phone Number</th>
+
+            <th>Role</th>
+
+            <th>Manage Role</th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody>
+
+          <tr *ngFor="let user of filteredUsers">
+
+            <!-- ID -->
+
+            <td>
+              {{ user.id }}
+            </td>
+
+
+            <!-- FULL NAME -->
+
+            <td>
+
+              <strong>
+                {{ user.fullName }}
+              </strong>
+
+            </td>
+
+
+            <!-- USERNAME -->
+
+            <td>
+              {{ user.username }}
+            </td>
+
+
+            <!-- EMAIL -->
+
+            <td>
+              {{ user.email }}
+            </td>
+
+
+            <!-- PHONE -->
+
+            <td>
+              {{ user.phoneNumber }}
+            </td>
+
+
+            <!-- CURRENT ROLE -->
+
+            <td>
+
+              <span class="badge"
+                    [ngClass]="roleClass(user.role)">
+
+                {{ user.role }}
+
+              </span>
+
+            </td>
+
+
+            <!-- CHANGE ROLE -->
+
+            <td class="actions-cell">
+
+              <select class="role-select"
+                      [ngModel]="user.role"
+                      (ngModelChange)="changeRole(user, $event)"
+                      [disabled]="updatingUserId === user.id">
+
+                <option value="Employee">
+                  Employee
+                </option>
+
+                <option value="Inspector">
+                  Inspector
+                </option>
+
+                <option value="Admin">
+                  Admin
+                </option>
+
+              </select>
+
+
+              <span class="updating-text"
+                    *ngIf="updatingUserId === user.id">
+
+                Updating...
+
+              </span>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+
+      <!-- ===================================================
+           EMPTY STATE
+      ==================================================== -->
+
+      <div class="empty-state"
+           *ngIf="filteredUsers.length === 0">
+
+        <div class="empty-icon">
+          👥
+        </div>
+
+        <h3>
+          No Users Found
+        </h3>
+
+        <p>
+          No registered users match your search or role filter.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</app-admin-layout>
