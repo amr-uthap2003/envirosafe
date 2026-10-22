@@ -1,84 +1,132 @@
 .risk-container {
   padding: 24px;
+  font-family: Arial, sans-serif;
 }
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+  .page-header h1 {
+    margin: 0 0 6px;
+    color: #0a3d2e;
+  }
 
 .subtitle {
-  color: #6b7280;
-  margin-bottom: 20px;
+  margin: 0;
+  color: #666;
+  font-size: 15px;
 }
+
+.back-btn {
+  padding: 9px 18px;
+  border-radius: 20px;
+  background: #0a6b47;
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+  .back-btn:hover {
+    background: #08563a;
+  }
 
 .overall-card {
-  padding: 20px;
-  border-radius: 10px;
-  margin-bottom: 24px;
-  color: #fff;
+  padding: 18px 24px;
+  border-radius: 14px;
+  margin-bottom: 22px;
+  border-left: 6px solid;
 }
 
-  .overall-card.low {
-    background: #10b981;
+  .overall-card span {
+    font-size: 14px;
+    color: #555;
   }
+
+  .overall-card h2 {
+    margin: 6px 0 0;
+    font-size: 30px;
+  }
+
+  .overall-card.low {
+    background: #eef8f1;
+    border-color: #1b8a4b;
+  }
+
+    .overall-card.low h2 {
+      color: #1b8a4b;
+    }
 
   .overall-card.medium {
-    background: #f59e0b;
+    background: #fff8ec;
+    border-color: #e08a00;
   }
 
+    .overall-card.medium h2 {
+      color: #d98200;
+    }
+
   .overall-card.high {
-    background: #ef4444;
+    background: #fdf0ee;
+    border-color: #c62828;
   }
+
+    .overall-card.high h2 {
+      color: #c62828;
+    }
 
 .risk-table {
   width: 100%;
   border-collapse: collapse;
   background: #fff;
-  border-radius: 8px;
+  border-radius: 14px;
   overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
 
-  .risk-table th, .risk-table td {
+  .risk-table th,
+  .risk-table td {
     text-align: left;
-    padding: 12px 16px;
-    border-bottom: 1px solid #e5e7eb;
+    padding: 13px 16px;
+    border-bottom: 1px solid #eef2ef;
+    font-size: 14px;
+  }
+
+  .risk-table th {
+    background: #f6f9f7;
+    color: #555;
   }
 
 .badge {
-  padding: 4px 10px;
-  border-radius: 999px;
+  padding: 4px 14px;
+  border-radius: 14px;
+  font-weight: bold;
   font-size: 13px;
-  color: #fff;
 }
 
   .badge.low {
-    background: #10b981;
+    background: #e3f5ea;
+    color: #1b8a4b;
   }
 
   .badge.medium {
-    background: #f59e0b;
+    background: #fff3e0;
+    color: #d98200;
   }
 
   .badge.high {
-    background: #ef4444;
+    background: #fdecea;
+    color: #c62828;
   }
-.page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 20px;
-}
 
-.back-btn {
-  background: #e5f3ee;
-  color: #0f766e;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  font-size: 14px;
-  text-decoration: none;
-  white-space: nowrap;
-  display: inline-block;
+/* spacing for the new inspector report prediction panel */
+app-report-prediction {
+  display: block;
+  margin-top: 24px;
 }
-
-  .back-btn:hover {
-    background: #d3ece3;
-  }

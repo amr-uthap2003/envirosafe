@@ -1,0 +1,60 @@
+<app-layout>
+  <div class="page">
+
+    <h1 class="page-title">Inspector Reports</h1>
+    <p class="page-subtitle">Inspection reports submitted for your industry</p>
+
+    <div class="card">
+
+      <p *ngIf="loading" class="state-msg">Loading inspector reports...</p>
+
+      <p *ngIf="!loading && error" class="state-msg error">{{ error }}</p>
+
+      <p *ngIf="!loading && !error && reports.length === 0" class="state-msg">
+        No inspector reports found for your industry yet.
+      </p>
+
+      <div class="table-wrap" *ngIf="!loading && reports.length > 0">
+        <table class="reports-table">
+          <thead>
+            <tr>
+              <th>Inspector</th>
+              <th>Date</th>
+              <th>Type</th>
+              <th>Risk</th>
+              <th>Violations</th>
+              <th>Status</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let r of reports">
+              <td class="strong">{{ r.submittedByName }}</td>
+              <td>{{ r.reportDate | date:'short' }}</td>
+              <td>{{ r.reportType }}</td>
+              <td>
+                <span class="badge"
+                      [ngClass]="{
+                        'risk-low': r.riskLevel === 'Low',
+                        'risk-medium': r.riskLevel === 'Medium',
+                        'risk-high': r.riskLevel === 'High'
+                      }">{{ r.riskLevel }}</span>
+              </td>
+              <td>{{ r.activeViolations }}</td>
+              <td>
+                <span class="badge"
+                      [ngClass]="{
+                        'badge-compliant': r.complianceStatus === 'Compliant',
+                        'badge-noncompliant': r.complianceStatus === 'Non-Compliant',
+                        'badge-review': r.complianceStatus === 'Under Review'
+                      }">{{ r.complianceStatus }}</span>
+              </td>
+              <td>{{ r.description || '—' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</app-layout>

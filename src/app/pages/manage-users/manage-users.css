@@ -35,6 +35,24 @@
     background: #066647;
   }
 
+.success-message {
+  background: #d1f5df;
+  color: #0b6e3f;
+  padding: 12px 16px;
+  border-radius: 10px;
+  margin-bottom: 16px;
+  border: 1px solid #a6e9c1;
+}
+
+.error-message {
+  background: #fdecea;
+  color: #c0392b;
+  padding: 12px 16px;
+  border-radius: 10px;
+  margin-bottom: 16px;
+  border: 1px solid #f5c6cb;
+}
+
 .filters-bar {
   display: flex;
   gap: 12px;
@@ -56,11 +74,34 @@
   background: white;
 }
 
+.loading-state {
+  text-align: center;
+  padding: 60px 0;
+  color: #6c757d;
+}
+
+.loader {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #d8e3e0;
+  border-top-color: #087f5b;
+  border-radius: 50%;
+  margin: 0 auto 12px;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .table-card {
   background: white;
   border-radius: 16px;
   padding: 10px 25px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  overflow-x: auto;
 }
 
 .users-table {
@@ -74,6 +115,7 @@
     font-size: 13px;
     color: #777;
     border-bottom: 1px solid #eee;
+    white-space: nowrap;
   }
 
   .users-table td {
@@ -81,6 +123,7 @@
     border-bottom: 1px solid #f2f2f2;
     font-size: 14px;
     color: #12372a;
+    vertical-align: middle;
   }
 
 .badge {
@@ -123,9 +166,30 @@
     background: #20a77a;
   }
 
-.actions-cell {
+/* ===== Fixed-width cell so Assigned Industry / Manage Role columns
+   don't shift when the "Updating..." text appears/disappears ===== */
+.select-cell {
   display: flex;
-  gap: 8px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  min-width: 150px;
+}
+
+  .select-cell .role-select {
+    width: 150px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid #d8e3e0;
+    font-size: 13px;
+    background: white;
+  }
+
+.updating-text {
+  font-size: 11px;
+  color: #6c757d;
+  font-style: italic;
+  min-height: 14px;
 }
 
 .toggle-btn, .delete-btn {
@@ -135,6 +199,7 @@
   font-size: 12px;
   cursor: pointer;
   font-weight: 600;
+  white-space: nowrap;
 }
 
 .toggle-btn {
@@ -153,6 +218,11 @@
 
   .delete-btn:hover {
     background: #fecaca;
+  }
+
+  .delete-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 
 .empty-state {

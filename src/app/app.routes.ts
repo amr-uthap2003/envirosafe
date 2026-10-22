@@ -25,6 +25,13 @@ import { MySubmissions } from './pages/my-submissions/my-submissions';
 import { InspectorDashboard } from './pages/inspector-dashboard/inspector-dashboard';
 import { InspectIndustry } from './pages/inspect-industry/inspect-industry';
 import { MyInspections } from './pages/my-inspections/my-inspections';
+import { EmployeeReadings } from './pages/employee-readings/employee-readings';
+import { InspectorReports } from './pages/inspector-reports/inspector-reports';
+import { ComplianceStatus } from './pages/compliance-status/compliance-status';
+import { MyRecommendations } from './pages/my-recommendations/my-recommendations';
+import { Notifications } from './pages/notifications/notifications';
+import { CorrectiveActions } from './pages/corrective-actions/corrective-actions';
+import { MyCorrectiveActions } from './pages/my-corrective-actions/my-corrective-actions'; // NEW
 
 export const routes: Routes = [
 
@@ -91,15 +98,46 @@ export const routes: Routes = [
     component: EnvironmentalData
   },
 
+  // Employee Readings (Industry Manager view)
+  {
+    path: 'employee-readings',
+    component: EmployeeReadings
+  },
+
+  // Inspector Reports (Industry Manager view)
+  {
+    path: 'inspector-reports',
+    component: InspectorReports
+  },
+
+  // Compliance Status (Industry Manager view)
+  {
+    path: 'compliance-status',
+    component: ComplianceStatus
+  },
+
   // Risk Prediction
   {
     path: 'risk-prediction',
     component: RiskPrediction
   },
-  // recommendations
+
+  // Recommendations (Industry Manager view)
   {
     path: 'recommendations',
     component: Recommendations
+  },
+
+  // Notifications (Industry Manager view)
+  {
+    path: 'notifications',
+    component: Notifications
+  },
+
+  // Corrective Actions (Industry Manager view)
+  {
+    path: 'corrective-actions',
+    component: CorrectiveActions
   },
 
   // Reports
@@ -119,46 +157,69 @@ export const routes: Routes = [
     path: 'manage-users',
     component: ManageUsers
   },
+
   {
     path: 'admin-industries',
     component: AdminIndustries
   },
+
   {
     path: 'admin-compliance-standards',
     component: AdminComplianceStandards
   },
+
   {
     path: 'admin-reports',
     component: AdminReports
   },
+
+  // Employee
   {
     path: 'employee-dashboard',
     component: EmployeeDashboard
   },
+
   {
     path: 'submit-reading',
     component: SubmitReading
   },
+
   {
     path: 'my-submissions',
     component: MySubmissions
   },
+
+  // Inspector
   {
     path: 'inspector-dashboard',
     component: InspectorDashboard
   },
+
   {
     path: 'inspect-industry',
     component: InspectIndustry
   },
+
   {
     path: 'my-inspections',
     component: MyInspections
   },
-  // Invalid URL
+
+  // Employee / Inspector: recommendations written by the manager
+  {
+    path: 'my-recommendations',
+    component: MyRecommendations
+  },
+
+  // Employee / Inspector: corrective actions and risk (view only)  NEW
+  {
+    path: 'my-corrective-actions',
+    component: MyCorrectiveActions
+  },
+
+  // Invalid URL (must always be the LAST route)
   {
     path: '**',
     redirectTo: ''
   }
-
 ];

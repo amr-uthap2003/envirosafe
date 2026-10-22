@@ -1,0 +1,28 @@
+<div class="box">
+  <div class="box-head">
+    <h3>💡 Recommendations from your Industry Manager</h3>
+    <span class="count" *ngIf="items.length > 0">{{ items.length }}</span>
+  </div>
+
+  <p *ngIf="error" class="error">{{ error }}</p>
+
+  <p *ngIf="!error && items.length === 0" class="muted">
+    No recommendations yet. Your manager's notes will appear here.
+  </p>
+
+  <div class="item" *ngFor="let i of items">
+    <div class="text">{{ i.text }}</div>
+
+    <div class="context" *ngIf="i.kind === 'Employee'">
+      On your reading of {{ i.sourceDate | date:'medium' }}:
+      Air {{ i.airQuality }}, pH {{ i.waterPh }}, Noise {{ i.noiseLevel }} dB,
+      Temp {{ i.temperature }}°C, Waste {{ i.wasteDisposal }}
+    </div>
+    <div class="context" *ngIf="i.kind === 'Inspector'">
+      On your report of {{ i.sourceDate | date:'medium' }}:
+      {{ i.complianceStatus }} | Risk {{ i.riskLevel }}
+    </div>
+
+    <small class="meta">From {{ i.createdByName }} | {{ i.createdAt | date:'medium' }}</small>
+  </div>
+</div>

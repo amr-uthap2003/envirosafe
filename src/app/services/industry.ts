@@ -7,12 +7,20 @@ export interface IndustryModel {
   name: string;
   location: string;
   type: string;
+  manager: string;
+  status: 'Active' | 'Inactive';
+  complianceStatus: 'Compliant' | 'Non-Compliant' | 'Under Review';
+  riskLevel: 'Low' | 'Medium' | 'High';
 }
 
 export interface AddIndustryRequest {
   name: string;
   location: string;
   type: string;
+  manager: string;
+  status: 'Active' | 'Inactive';
+  complianceStatus: 'Compliant' | 'Non-Compliant' | 'Under Review';
+  riskLevel: 'Low' | 'Medium' | 'High';
 }
 
 @Injectable({
@@ -28,8 +36,8 @@ export class IndustryService {
     return this.http.get<IndustryModel[]>(`${this.baseUrl}`);
   }
 
-  addIndustry(data: AddIndustryRequest): Observable<any> {
-    return this.http.post(`${this.baseUrl}`, data);
+  addIndustry(data: AddIndustryRequest): Observable<IndustryModel> {
+    return this.http.post<IndustryModel>(`${this.baseUrl}`, data);
   }
 
   deleteIndustry(id: number): Observable<any> {

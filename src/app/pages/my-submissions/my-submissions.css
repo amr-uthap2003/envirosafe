@@ -63,3 +63,16 @@
   text-align: center;
   color: #999;
 }
+.download-btn {
+  background: #087f5b;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+  .download-btn:hover {
+    background: #066647;
+  }

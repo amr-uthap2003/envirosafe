@@ -1,0 +1,85 @@
+<app-inspector-layout *ngIf="isInspector">
+  <ng-container *ngTemplateOutlet="content"></ng-container>
+</app-inspector-layout>
+
+<app-employee-layout *ngIf="!isInspector">
+  <ng-container *ngTemplateOutlet="content"></ng-container>
+</app-employee-layout>
+
+<ng-template #content>
+  <div class="page">
+
+    <div class="hero">
+      <h1>Corrective Actions and Risk</h1>
+      <p>Actions set by your Industry Manager and the current risk level. This page is view only.</p>
+    </div>
+
+    <p *ngIf="error" class="error">{{ error }}</p>
+    <p *ngIf="data && !data.hasData" class="notice">{{ data.message }}</p>
+
+    <ng-container *ngIf="data?.hasData">
+      <div class="industry" *ngFor="let ind of data.industries">
+
+        <h2>
+          {{ ind.industryName }}
+          <span class="type" *ngIf="ind.industryType">{{ ind.industryType }}</span>
+        </h2>
+
+        <!-- Risk -->
+        <div class="panel">
+          <h3>Current risk level</h3>
+
+          <p class="small" *ngIf="!ind.overall">No readings have been submitted for this industry yet.</p>
+
+          <ng-container *ngIf="ind.overall">
+            <div class="risk-card" [ngClass]="cls(ind.overall)">
+              <span>Overall risk</span>
+              <strong>{{ ind.overall }}</strong>
+              <small>Latest reading: {{ ind.readingTime | date:'medium' }}</small>
+            </div>
+
+            <table>
+              <thead><tr><th>Parameter</th><th>Value</th><th>Risk</th><th>Reason</th></tr></thead>
+              <tbody>
+                <tr *ngFor="let i of ind.items">
+                  <td>{{ i.parameter }}</td>
+                  <td>{{ i.value }}</td>
+                  <td><span class="badge" [ngClass]="cls(i.status)">{{ i.status }}</span></td>
+                  <td>{{ i.reason }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </ng-container>
+        </div>
+
+        <!-- Corrective actions -->
+        <div class="panel">
+          <h3>Corrective actions</h3>
+          <p class="small" *ngIf="ind.actions.length === 0">No corrective actions have been set yet.</p>
+
+          <div class="table-wrap" *ngIf="ind.actions.length > 0">
+            <table>
+              <thead>
+                <tr><th>#</th><th>Action</th><th>Report</th><th>Due date</th><th>Status</th></tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let a of ind.actions">
+                  <td>{{ a.id }}</td>
+                  <td>{{ a.description }}</td>
+                  <td>{{ a.report }}</td>
+                  <td [class.bad]="isOverdue(a)">
+                    {{ a.dueDate | date:'d MMM y' }}
+                    <span class="late" *ngIf="isOverdue(a)">Overdue</span>
+                  </td>
+                  <td><span class="chip" [ngClass]="actionClass(a.status)">{{ a.status }}</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </ng-container>
+
+  </div>
+</ng-template>

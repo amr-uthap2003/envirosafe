@@ -157,3 +157,30 @@
     grid-template-columns: 1fr;
   }
 }
+
+.alert-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff3cd;
+  border: 1px solid #ffeeba;
+  color: #856404;
+  padding: 14px 18px;
+  border-radius: 12px;
+  margin: 20px 0;
+  font-size: 14px;
+}
+
+  .alert-banner button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #856404;
+    line-height: 1;
+    padding: 0 4px;
+  }
+
+    .alert-banner button:hover {
+      color: #533f03;
+    }

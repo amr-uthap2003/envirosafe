@@ -1,0 +1,28 @@
+<ng-template #content>
+  <div class="page">
+
+    <div class="hero">
+      <div>
+        <h1>💡 Recommendations</h1>
+        <p *ngIf="role === 'Employee'">
+          Advice from your Industry Manager on the readings you submitted.
+        </p>
+        <p *ngIf="role === 'Inspector'">
+          Advice from your Industry Manager on the reports you submitted.
+        </p>
+      </div>
+      <div class="hero-icon">{{ role === 'Inspector' ? '🔍' : '🏭' }}</div>
+    </div>
+
+    <app-manager-recommendations></app-manager-recommendations>
+
+  </div>
+</ng-template>
+
+<app-employee-layout *ngIf="role === 'Employee'">
+  <ng-container *ngTemplateOutlet="content"></ng-container>
+</app-employee-layout>
+
+<app-inspector-layout *ngIf="role === 'Inspector'">
+  <ng-container *ngTemplateOutlet="content"></ng-container>
+</app-inspector-layout>

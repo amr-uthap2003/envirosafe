@@ -1,710 +1,206 @@
 <app-layout>
 
-  <!-- MAIN CONTENT -->
   <main class="main">
 
-
-    <!-- HEADER -->
     <header class="header">
-
       <div>
-
-        <h1>
-          Industry Manager Dashboard
-        </h1>
-
-        <p>
-          Environmental Compliance Monitoring & Risk Management
-        </p>
-
+        <h1>Industry Manager Dashboard</h1>
+        <p>Environmental Compliance Monitoring & Risk Management</p>
       </div>
 
-
-      <div class="header-user">
-
-        <span class="notification">
+      <div class="notification-bell-wrapper">
+        <button class="notification-bell" (click)="toggleNotificationPanel()">
           🔔
-        </span>
+          <span class="notification-count" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
+        </button>
 
-        <div class="small-avatar">
-          R
+        <div class="notification-panel" *ngIf="showNotificationPanel">
+          <div class="notification-panel-header">
+            <strong>Notifications</strong>
+            <button class="mark-all-btn" (click)="markAllRead()" *ngIf="unreadCount > 0">
+              Mark all as read
+            </button>
+          </div>
+
+          <div class="notification-scroll-area">
+            <div class="notification-list" *ngIf="notifications.length > 0; else noNotifications">
+              <div class="notification-row"
+                   *ngFor="let n of notifications"
+                   (click)="markNotificationRead(n)">
+                <span class="status-dot" [class.unread]="!n.isRead"></span>
+                <div class="notification-row-text">
+                  <span class="notification-title">{{ n.message }}</span>
+                  <span class="notification-time">{{ n.createdAt | date:'M/d/yy, h:mm a' }}</span>
+                </div>
+                <span class="notification-chevron">›</span>
+              </div>
+            </div>
+
+            <ng-template #noNotifications>
+              <div class="notification-empty">No notifications yet.</div>
+            </ng-template>
+          </div>
         </div>
-
-        <div class="user-details">
-
-          <strong>
-            Radhika
-          </strong>
-
-          <small>
-            Industry Manager
-          </small>
-
-        </div>
-
       </div>
-
     </header>
 
-
-
-    <!-- WELCOME -->
     <section class="welcome">
-
       <div>
-
-        <h2>
-          Welcome back, Radhika 👋
-        </h2>
-
-        <p>
-          Monitor your industry's environmental compliance,
-          environmental data, risk levels and corrective
-          actions from one place.
-        </p>
-
+        <h2>Welcome back, {{ managerName }} 👋</h2>
+        <p>Monitor your industry's environmental compliance, environmental data, risk levels and corrective actions from one place.</p>
       </div>
-
-
-      <div class="earth">
-        🌍
-      </div>
-
+      <div class="earth">🌍</div>
     </section>
 
-
-
-    <!-- STATISTICS -->
     <section class="stats">
 
-
-      <!-- MY INDUSTRY -->
       <div class="stat-card">
-
-        <div class="stat-icon">
-          🏭
-        </div>
-
+        <div class="stat-icon">🏭</div>
         <div>
-
-          <p>
-            My Industry
-          </p>
-
-          <h2>
-            Green Textile
-          </h2>
-
-          <span>
-            Assigned industry
-          </span>
-
+          <p>My Industry</p>
+          <h2>{{ industryName }}</h2>
+          <span>Assigned industry</span>
         </div>
-
       </div>
 
-
-
-      <!-- COMPLIANCE -->
       <div class="stat-card">
-
-        <div class="stat-icon">
-          ✅
-        </div>
-
+        <div class="stat-icon">✅</div>
         <div>
-
-          <p>
-            Compliance Status
-          </p>
-
-          <h2>
-            Compliant
-          </h2>
-
-          <span>
-            Current status
-          </span>
-
+          <p>Compliance Status</p>
+          <h2>{{ complianceStatus }}</h2>
+          <span>Current status</span>
         </div>
-
       </div>
 
-
-
-      <!-- VIOLATIONS -->
       <div class="stat-card">
-
-        <div class="stat-icon warning">
-          ⚠️
-        </div>
-
+        <div class="stat-icon warning">⚠️</div>
         <div>
-
-          <p>
-            Active Violations
-          </p>
-
-          <h2>
-            2
-          </h2>
-
-          <span>
-            Need attention
-          </span>
-
+          <p>Active Violations</p>
+          <h2>{{ activeViolations }}</h2>
+          <span>Need attention</span>
         </div>
-
       </div>
 
-
-
-      <!-- RISK -->
       <div class="stat-card">
-
-        <div class="stat-icon danger">
-          🚨
-        </div>
-
+        <div class="stat-icon danger">🚨</div>
         <div>
-
-          <p>
-            Risk Level
-          </p>
-
-          <h2>
-            Medium
-          </h2>
-
-          <span>
-            Current risk level
-          </span>
-
+          <p>Risk Level</p>
+          <h2>{{ riskLevel }}</h2>
+          <span>Current risk level</span>
         </div>
-
       </div>
 
     </section>
 
-
-
-    <!-- MAIN CARDS -->
     <section class="cards">
 
-
-      <!-- COMPLIANCE OVERVIEW -->
       <div class="card">
-
         <div class="card-title">
-
           <div>
-
-            <h3>
-              Compliance Overview
-            </h3>
-
-            <p>
-              Current environmental compliance status
-            </p>
-
+            <h3>Compliance Overview</h3>
+            <p>Current environmental compliance status</p>
           </div>
-
-          <button>
-            View Details →
-          </button>
-
+          <button>View Details →</button>
         </div>
-
 
         <div class="compliance">
-
           <div class="circle">
-
-            <strong>
-              82%
-            </strong>
-
-            <span>
-              Compliant
-            </span>
-
+            <strong>{{ compliantPercent }}%</strong>
+            <span>Compliant</span>
           </div>
-
 
           <div class="status">
-
             <div>
-
               <span class="dot green"></span>
-
               Compliant
-
-              <strong>
-                82%
-              </strong>
-
+              <strong>{{ compliantPercent }}%</strong>
             </div>
-
-
             <div>
-
               <span class="dot orange"></span>
-
               Needs Attention
-
-              <strong>
-                12%
-              </strong>
-
+              <strong>{{ needsAttentionPercent }}%</strong>
             </div>
-
-
             <div>
-
               <span class="dot red"></span>
-
               High Risk
-
-              <strong>
-                6%
-              </strong>
-
+              <strong>{{ highRiskPercent }}%</strong>
             </div>
-
           </div>
-
         </div>
-
       </div>
 
-
-
-      <!-- RISK CLASSIFICATION -->
       <div class="card">
-
         <div class="card-title">
-
           <div>
-
-            <h3>
-              Risk Classification
-            </h3>
-
-            <p>
-              Rule-based industry risk assessment
-            </p>
-
+            <h3>Risk Classification</h3>
+            <p>Rule-based industry risk assessment</p>
           </div>
-
-          <button>
-            View All →
-          </button>
-
+          <button>View All →</button>
         </div>
-
 
         <div class="risk">
-
-
           <div class="risk-item">
-
             <div>
-
-              <span>
-                Low Risk
-              </span>
-
-              <strong>
-                60%
-              </strong>
-
+              <span>Low Risk</span>
+              <strong>{{ lowRiskPercent }}%</strong>
             </div>
-
-            <div class="bar">
-
-              <div class="low"></div>
-
-            </div>
-
+            <div class="bar"><div class="low"></div></div>
           </div>
 
-
-
           <div class="risk-item">
-
             <div>
-
-              <span>
-                Medium Risk
-              </span>
-
-              <strong>
-                30%
-              </strong>
-
+              <span>Medium Risk</span>
+              <strong>{{ mediumRiskPercent }}%</strong>
             </div>
-
-            <div class="bar">
-
-              <div class="medium"></div>
-
-            </div>
-
+            <div class="bar"><div class="medium"></div></div>
           </div>
 
-
-
           <div class="risk-item">
-
             <div>
-
-              <span>
-                High Risk
-              </span>
-
-              <strong>
-                10%
-              </strong>
-
+              <span>High Risk</span>
+              <strong>{{ highRiskClassPercent }}%</strong>
             </div>
-
-            <div class="bar">
-
-              <div class="high"></div>
-
-            </div>
-
+            <div class="bar"><div class="high"></div></div>
           </div>
-
         </div>
-
       </div>
 
     </section>
 
-
-
-    <!-- QUICK ACTIONS -->
     <section class="card">
-
       <div class="card-title">
-
         <div>
-
-          <h3>
-            Quick Actions
-          </h3>
-
-          <p>
-            Manage your industry activities
-          </p>
-
+          <h3>Quick Actions</h3>
+          <p>Manage your industry activities</p>
         </div>
-
       </div>
-
 
       <div class="actions">
-
-
-        <!-- MANAGE INDUSTRIES -->
         <button routerLink="/manage-industries">
-
-          <span class="action-icon">
-            🏭
-          </span>
-
-          <strong>
-            Manage Industries
-          </strong>
-
-          <small>
-            View your assigned industry
-          </small>
-
+          <span class="action-icon">🏭</span>
+          <strong>Manage Industries</strong>
+          <small>View your assigned industry</small>
         </button>
 
-
-
-        <!-- COMPLIANCE -->
         <button routerLink="/compliance-standards">
-
-          <span class="action-icon">
-            📋
-          </span>
-
-          <strong>
-            Compliance Standards
-          </strong>
-
-          <small>
-            View environmental standards
-          </small>
-
+          <span class="action-icon">📋</span>
+          <strong>Compliance Standards</strong>
+          <small>View environmental standards</small>
         </button>
 
-
-
-        <!-- ENVIRONMENTAL DATA -->
         <button routerLink="/environmental-data">
-
-          <span class="action-icon">
-            🌱
-          </span>
-
-          <strong>
-            Environmental Data
-          </strong>
-
-          <small>
-            Monitor environmental parameters
-          </small>
-
+          <span class="action-icon">🌱</span>
+          <strong>Environmental Data</strong>
+          <small>Monitor environmental parameters</small>
         </button>
 
-
-
-        <!-- REPORTS -->
         <button routerLink="/reports">
-
-          <span class="action-icon">
-            📊
-          </span>
-
-          <strong>
-            Generate Reports
-          </strong>
-
-          <small>
-            Create compliance reports
-          </small>
-
+          <span class="action-icon">📊</span>
+          <strong>Generate Reports</strong>
+          <small>Create compliance reports</small>
         </button>
-
       </div>
-
     </section>
-
-
-
-    <!-- ENVIRONMENTAL MONITORING -->
-    <section class="card">
-
-      <div class="card-title">
-
-        <div>
-
-          <h3>
-            Environmental Monitoring
-          </h3>
-
-          <p>
-            Current environmental parameters
-          </p>
-
-        </div>
-
-      </div>
-
-
-      <div class="environment">
-
-
-        <div class="environment-item">
-
-          <span>
-            🌬️
-          </span>
-
-          <h4>
-            Air Quality
-          </h4>
-
-          <strong>
-            Good
-          </strong>
-
-          <p>
-            Within standard limits
-          </p>
-
-        </div>
-
-
-
-        <div class="environment-item">
-
-          <span>
-            💧
-          </span>
-
-          <h4>
-            Water Quality
-          </h4>
-
-          <strong>
-            Normal
-          </strong>
-
-          <p>
-            Within standard limits
-          </p>
-
-        </div>
-
-
-
-        <div class="environment-item">
-
-          <span>
-            ♻️
-          </span>
-
-          <h4>
-            Waste Disposal
-          </h4>
-
-          <strong>
-            Good
-          </strong>
-
-          <p>
-            Proper disposal recorded
-          </p>
-
-        </div>
-
-
-
-        <div class="environment-item">
-
-          <span>
-            🌡️
-          </span>
-
-          <h4>
-            Temperature
-          </h4>
-
-          <strong>
-            27°C
-          </strong>
-
-          <p>
-            Current reading
-          </p>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-
-    <!-- RECENT ACTIVITIES -->
-    <section class="card">
-
-      <div class="card-title">
-
-        <div>
-
-          <h3>
-            Recent Activities
-          </h3>
-
-          <p>
-            Latest industry monitoring activities
-          </p>
-
-        </div>
-
-      </div>
-
-
-      <div class="activities">
-
-
-        <div class="activity">
-
-          <span>
-            🏭
-          </span>
-
-          <div>
-
-            <strong>
-              Industry inspection completed
-            </strong>
-
-            <p>
-              Environmental parameters were recorded successfully.
-            </p>
-
-          </div>
-
-          <small>
-            Today
-          </small>
-
-        </div>
-
-
-
-        <div class="activity">
-
-          <span>
-            ⚠️
-          </span>
-
-          <div>
-
-            <strong>
-              Compliance violation detected
-            </strong>
-
-            <p>
-              Air quality exceeded the predefined standard.
-            </p>
-
-          </div>
-
-          <small>
-            Today
-          </small>
-
-        </div>
-
-
-
-        <div class="activity">
-
-          <span>
-            📋
-          </span>
-
-          <div>
-
-            <strong>
-              Compliance standards checked
-            </strong>
-
-            <p>
-              Current environmental standards were reviewed.
-            </p>
-
-          </div>
-
-          <small>
-            Yesterday
-          </small>
-
-        </div>
-
-      </div>
-
-    </section>
-
 
   </main>
 

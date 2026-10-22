@@ -14,6 +14,34 @@
   color: #6c757d;
 }
 
+.assigned-industry-banner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #e5f7f0;
+  border: 1px solid #c3ebd9;
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-top: 18px;
+}
+
+.banner-icon {
+  font-size: 24px;
+}
+
+.banner-label {
+  display: block;
+  font-size: 12px;
+  color: #4a8f74;
+  margin-bottom: 2px;
+}
+
+.banner-value {
+  display: block;
+  font-size: 15px;
+  color: #12372a;
+}
+
 .form-card {
   background: white;
   border-radius: 16px;

@@ -1,117 +1,144 @@
-<div class="page">
+<app-layout>
+  <div class="page">
 
-  <!-- Page header -->
-  <div class="page-header">
-    <div>
-      <h1>Reports</h1>
-      <p class="subtitle">View, filter, and generate compliance reports for your industries</p>
+    <div class="banner">
+      <div>
+        <h1>Compliance Reports</h1>
+        <p>Inspector reports and employee readings for your assigned industry<span *ngIf="industryName">: {{ industryName }}</span>.</p>
+      </div>
+      <div class="banner-icon">📄</div>
     </div>
-  </div>
 
-  <button class="back-btn" (click)="goBack()">← Back to Dashboard</button>
+    <p *ngIf="error" class="error">{{ error }}</p>
+    <p *ngIf="noIndustry" class="notice">No industry is assigned to you yet, so there are no reports to show.</p>
 
-  <!-- Banner -->
-  <div class="banner">
-    <div>
-      <h2>Compliance Reports</h2>
-      <p>Track monthly, quarterly, and incident reports across all industries under your responsibility.</p>
+    <div class="cards">
+      <div class="card"><span>Total Reports</span><strong>{{ total }}</strong></div>
+      <div class="card"><span>Compliant</span><strong class="ok">{{ compliant }}</strong></div>
+      <div class="card"><span>Non-Compliant</span><strong class="bad">{{ nonCompliant }}</strong></div>
+      <div class="card"><span>Under Review</span><strong class="warn">{{ underReview }}</strong></div>
     </div>
-    <div class="banner-icon">📄</div>
-  </div>
 
-  <!-- Summary stats -->
-  <div class="stats-row">
-    <div class="stat-card">
-      <span class="stat-label">Total Reports</span>
-      <span class="stat-value">{{ totalReports }}</span>
+    <div class="toolbar">
+      <input type="text" [(ngModel)]="search" placeholder="Search by name, report type or description..." />
+
+      <select [(ngModel)]="sourceFilter">
+        <option value="All">All Sources</option>
+        <option value="Inspector">Inspector</option>
+        <option value="Employee">Employee</option>
+        <option value="Manager">Manager</option>
+      </select>
+
+      <select [(ngModel)]="statusFilter">
+        <option value="All">All Statuses</option>
+        <option value="Compliant">Compliant</option>
+        <option value="Non-Compliant">Non-Compliant</option>
+        <option value="Under Review">Under Review</option>
+      </select>
+
+      <select [(ngModel)]="riskFilter">
+        <option value="All">All Risk Levels</option>
+        <option value="Low">Low</option>
+        <option value="Medium">Medium</option>
+        <option value="High">High</option>
+      </select>
+
+      <button class="btn-light" (click)="resetFilters()">Reset</button>
+      <button class="btn-main" [disabled]="noIndustry" (click)="toggleForm()">+ Generate Report</button>
     </div>
-    <div class="stat-card">
-      <span class="stat-label">Compliant</span>
-      <span class="stat-value stat-compliant">{{ compliantCount }}</span>
+
+    <div class="form-card" *ngIf="showForm">
+      <h3>New report for {{ industryName }}</h3>
+
+      <div class="grid">
+        <label>
+          Report Type
+          <select [(ngModel)]="form.reportType">
+            <option>Monthly Report</option>
+            <option>Quarterly Report</option>
+            <option>Incident Report</option>
+          </select>
+        </label>
+
+        <label>
+          Compliance Status
+          <select [(ngModel)]="form.complianceStatus">
+            <option>Compliant</option>
+            <option>Non-Compliant</option>
+            <option>Under Review</option>
+          </select>
+        </label>
+
+        <label>
+          Risk Level
+          <select [(ngModel)]="form.riskLevel">
+            <option>Low</option>
+            <option>Medium</option>
+            <option>High</option>
+          </select>
+        </label>
+
+        <label>
+          Active Violations
+          <input type="number" min="0" [(ngModel)]="form.activeViolations" />
+        </label>
+      </div>
+
+      <label class="full">
+        Description
+        <textarea rows="3" [(ngModel)]="form.description" placeholder="Summary of findings..."></textarea>
+      </label>
+
+      <p *ngIf="formMessage" class="error">{{ formMessage }}</p>
+
+      <div class="form-actions">
+        <button class="btn-light" (click)="toggleForm()">Cancel</button>
+        <button class="btn-main" [disabled]="saving" (click)="submit()">
+          {{ saving ? 'Saving...' : 'Save Report' }}
+        </button>
+      </div>
     </div>
-    <div class="stat-card">
-      <span class="stat-label">Non-Compliant</span>
-      <span class="stat-value stat-noncompliant">{{ nonCompliantCount }}</span>
-    </div>
-    <div class="stat-card">
-      <span class="stat-label">Under Review</span>
-      <span class="stat-value stat-review">{{ underReviewCount }}</span>
-    </div>
-  </div>
 
-  <!-- Filters -->
-  <div class="filters-bar">
-    <input type="text"
-           class="search-input"
-           placeholder="Search by industry name or type..."
-           [(ngModel)]="searchTerm"
-           (ngModelChange)="applyFilters()" />
+    <p class="muted" *ngIf="filtered.length === 0 && !noIndustry && !error">No reports found.</p>
 
-    <select class="filter-select" [(ngModel)]="statusFilter" (ngModelChange)="applyFilters()">
-      <option value="All">All Statuses</option>
-      <option value="Compliant">Compliant</option>
-      <option value="Non-Compliant">Non-Compliant</option>
-      <option value="Under Review">Under Review</option>
-    </select>
-
-    <select class="filter-select" [(ngModel)]="riskFilter" (ngModelChange)="applyFilters()">
-      <option value="All">All Risk Levels</option>
-      <option value="Low">Low</option>
-      <option value="Medium">Medium</option>
-      <option value="High">High</option>
-    </select>
-
-    <button class="reset-btn" (click)="resetFilters()">Reset</button>
-
-    <button class="generate-btn" (click)="generateNewReport()">+ Generate Report</button>
-  </div>
-
-  <!-- Report cards -->
-  <div class="report-list" *ngIf="filteredReports.length > 0; else noResults">
-    <div class="report-card" *ngFor="let report of filteredReports">
-
-      <div class="report-card-header">
-        <div class="report-title-group">
-          <div class="report-icon">🏭</div>
+    <div class="report" *ngFor="let r of filtered; trackBy: trackByKey">
+      <div class="report-top">
+        <div class="who">
+          <div class="icon">{{ r.source === 'Employee' ? '👷' : r.source === 'Manager' ? '🧑‍💼' : '🔍' }}</div>
           <div>
-            <h3>{{ report.industryName }}</h3>
-            <p class="report-type-line">{{ report.industryType }} • {{ report.reportType }} Report</p>
+            <h3>{{ industryName }}</h3>
+            <small>{{ industryType }} • {{ r.reportType }}</small>
           </div>
         </div>
-        <span class="badge" [ngClass]="statusClass(report.complianceStatus)">
-          {{ report.complianceStatus }}
+        <span class="badge"
+              [ngClass]="r.complianceStatus === 'Compliant' ? 'b-ok' : r.complianceStatus === 'Non-Compliant' ? 'b-bad' : 'b-warn'">
+          {{ r.complianceStatus }}
         </span>
       </div>
 
-      <p class="report-summary">{{ report.summary }}</p>
+      <p class="desc">{{ r.description }}</p>
+      <p class="detail" *ngIf="r.details">{{ r.details }}</p>
 
-      <div class="report-details">
-        <div class="detail-block">
-          <span class="detail-label">📅 Report Date</span>
-          <span class="detail-value">{{ report.reportDate }}</span>
+      <div class="meta">
+        <div><span>📅 Date</span><strong>{{ r.reportDate | date:'yyyy-MM-dd' }}</strong></div>
+        <div>
+          <span>⚠ Risk Level</span>
+          <strong [ngClass]="r.riskLevel === 'Low' ? 'ok' : r.riskLevel === 'High' ? 'bad' : 'warn'">{{ r.riskLevel }}</strong>
         </div>
-        <div class="detail-block">
-          <span class="detail-label">⚠ Risk Level</span>
-          <span class="detail-value" [ngClass]="riskClass(report.riskLevel)">{{ report.riskLevel }}</span>
-        </div>
-        <div class="detail-block">
-          <span class="detail-label">🚩 Active Violations</span>
-          <span class="detail-value">{{ report.activeViolations }}</span>
+        <div><span>🚩 {{ r.source === 'Employee' ? 'Violations Found' : 'Active Violations' }}</span><strong>{{ r.activeViolations }}</strong></div>
+        <div>
+          <span>👤 Submitted By</span>
+          <strong>
+            {{ r.submittedByName }}
+            <span class="role" [ngClass]="r.source === 'Employee' ? 'r-emp' : r.source === 'Manager' ? 'r-mgr' : 'r-insp'">{{ r.source }}</span>
+          </strong>
         </div>
       </div>
 
-      <div class="report-actions">
-        <button class="download-btn" (click)="downloadReport(report)">⬇ Download Report</button>
+      <div class="report-foot">
+        <button class="btn-main" (click)="download(r)">⬇ Download Report</button>
       </div>
-
     </div>
+
   </div>
-
-  <ng-template #noResults>
-    <div class="empty-state">
-      <p>No reports match your filters.</p>
-      <button class="reset-btn" (click)="resetFilters()">Clear Filters</button>
-    </div>
-  </ng-template>
-
-</div>
+</app-layout>

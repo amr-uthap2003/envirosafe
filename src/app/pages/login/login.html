@@ -4,6 +4,7 @@
 
   <form (ngSubmit)="login()">
 
+    <!-- Username -->
     <div class="input-box">
 
       <label>Username</label>
@@ -24,6 +25,7 @@
     </div>
 
 
+    <!-- Email -->
     <div class="input-box">
 
       <label>Email</label>
@@ -44,6 +46,7 @@
     </div>
 
 
+    <!-- Password -->
     <div class="input-box">
 
       <label>Password</label>
@@ -64,10 +67,32 @@
     </div>
 
 
+    <!-- Normal Login Button -->
     <button type="submit">
       Login
     </button>
 
   </form>
+
+
+  <!-- OR -->
+  <div style="
+      text-align: center;
+      margin: 20px 0;
+      color: #777;
+    ">
+
+    OR
+
+  </div>
+
+
+  <!-- Google Login -->
+  <div id="googleButton"
+       style="
+      display: flex;
+      justify-content: center;
+    ">
+  </div>
 
 </div>

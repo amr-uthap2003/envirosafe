@@ -17,22 +17,30 @@
             <th>Noise (dB)</th>
             <th>Temp (°C)</th>
             <th>Waste Disposal</th>
+            <th>Report</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let sub of submissions">
-            <td>{{ sub.date }}</td>
+            <td>{{ sub.submittedAt | date:'yyyy-MM-dd hh:mm a' }}</td>
             <td>{{ sub.airQuality }}</td>
             <td>{{ sub.waterPh }}</td>
             <td>{{ sub.noiseLevel }}</td>
             <td>{{ sub.temperature }}</td>
             <td><span class="badge" [ngClass]="disposalClass(sub.wasteDisposal)">{{ sub.wasteDisposal }}</span></td>
+            <td>
+              <button class="download-btn" (click)="downloadReadingReport(sub)">⬇ PDF</button>
+            </td>
           </tr>
         </tbody>
       </table>
 
-      <div class="empty-state" *ngIf="submissions.length === 0">
+      <div class="empty-state" *ngIf="!loading && submissions.length === 0">
         No submissions yet.
+      </div>
+
+      <div class="empty-state" *ngIf="loading">
+        Loading...
       </div>
     </div>
 

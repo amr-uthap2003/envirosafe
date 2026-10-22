@@ -21,7 +21,15 @@ export interface LoginResponse {
   id: number;
   fullName: string;
   username: string;
+  email?: string;
+  phoneNumber?: string;
   role: string;
+  assignedIndustryId?: number | null;
+  assignedIndustryName?: string | null;
+}
+
+export interface GoogleLoginRequest {
+  credential: string;
 }
 
 @Injectable({
@@ -38,14 +46,47 @@ export class UserService {
   }
 
   login(data: LoginRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.baseUrl}/login`, data);
+    return this.http.post<LoginResponse>(
+      `${this.baseUrl}/login`,
+      data
+    );
+  }
+
+  googleLogin(credential: string): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(
+      `${this.baseUrl}/google-login`,
+      {
+        credential: credential
+      }
+    );
   }
 
   getAllUsers(): Observable<any> {
     return this.http.get(`${this.baseUrl}`);
   }
 
+  getUser(userId: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}/${userId}`);
+  }
+
   updateUserRole(userId: number, newRole: string): Observable<any> {
-    return this.http.put(`${this.baseUrl}/${userId}/role`, { role: newRole });
+    return this.http.put(
+      `${this.baseUrl}/${userId}/role`,
+      { role: newRole }
+    );
+  }
+
+  updateUserIndustry(
+    userId: number,
+    industryId: number | null
+  ): Observable<any> {
+    return this.http.put(
+      `${this.baseUrl}/${userId}/industry`,
+      { industryId }
+    );
+  }
+
+  deleteUser(userId: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/${userId}`);
   }
 }

@@ -1,18 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AdminLayout } from '../../admin-layout/admin-layout';
+import { ReportService, ReportModel } from '../../services/report';
+import { ReadingService, EnvironmentalReading } from '../../services/reading.service';
+import jsPDF from 'jspdf';
 
 export interface ComplianceReport {
   id: number;
   industryName: string;
   industryType: string;
   reportDate: string;
-  reportType: 'Monthly' | 'Quarterly' | 'Incident' | 'Annual';
+  reportType: string;
   complianceStatus: 'Compliant' | 'Non-Compliant' | 'Under Review';
   riskLevel: 'Low' | 'Medium' | 'High';
   activeViolations: number;
   summary: string;
+}
+
+export interface ReadingNotification {
+  id: number;
+  name: string;
+  role: string;
+  submittedAt: string;
 }
 
 @Component({
@@ -22,46 +32,22 @@ export interface ComplianceReport {
   templateUrl: './admin-reports.html',
   styleUrl: './admin-reports.css'
 })
-export class AdminReports implements OnInit {
+export class AdminReports implements OnInit, OnDestroy {
 
-  // TODO: replace with GET /api/reports once your backend endpoint exists
-  allReports: ComplianceReport[] = [
-    {
-      id: 1,
-      industryName: 'Green Textile Industries',
-      industryType: 'Textile Manufacturing',
-      reportDate: '2026-08-01',
-      reportType: 'Monthly',
-      complianceStatus: 'Compliant',
-      riskLevel: 'Medium',
-      activeViolations: 2,
-      summary: 'Air quality within permissible limits. Two minor violations logged for noise levels during peak hours.'
-    },
-    {
-      id: 2,
-      industryName: 'Sunrise Chemicals Pvt Ltd',
-      industryType: 'Chemical Processing',
-      reportDate: '2026-08-05',
-      reportType: 'Incident',
-      complianceStatus: 'Under Review',
-      riskLevel: 'High',
-      activeViolations: 1,
-      summary: 'Unusual temperature spike detected by DHT11 sensor. Awaiting inspector confirmation.'
-    },
-    {
-      id: 3,
-      industryName: 'EcoPack Solutions',
-      industryType: 'Packaging',
-      reportDate: '2026-06-15',
-      reportType: 'Quarterly',
-      complianceStatus: 'Compliant',
-      riskLevel: 'Low',
-      activeViolations: 0,
-      summary: 'All environmental parameters within safe range for the full quarter.'
-    }
-  ];
-
+  allReports: ComplianceReport[] = [];
   filteredReports: ComplianceReport[] = [];
+
+  // Employee-submitted readings, shown alongside inspector reports
+  allReadings: EnvironmentalReading[] = [];
+
+  // Notification state
+  notifications: ReadingNotification[] = [];
+  showNotifications = false;
+  private knownReadingIds = new Set<number>();
+  private pollHandle: any;
+
+  loading = true;
+  error = '';
 
   searchTerm = '';
   statusFilter = 'All';
@@ -72,8 +58,96 @@ export class AdminReports implements OnInit {
   nonCompliantCount = 0;
   underReviewCount = 0;
 
+  constructor(
+    private reportService: ReportService,
+    private readingService: ReadingService
+  ) { }
+
   ngOnInit(): void {
-    this.applyFilters();
+    this.loadReports();
+    this.loadReadings(true); // true = first load, just baseline the ids, no notifications
+    this.pollHandle = setInterval(() => this.loadReadings(false), 15000); // poll every 15s
+  }
+
+  ngOnDestroy(): void {
+    if (this.pollHandle) {
+      clearInterval(this.pollHandle);
+    }
+  }
+
+  loadReports(): void {
+    this.loading = true;
+    this.error = '';
+
+    this.reportService.getAllReports().subscribe({
+      next: (data: ReportModel[]) => {
+        this.allReports = data.map(r => ({
+          id: r.id,
+          industryName: (r as any).industry?.name || 'Unknown',
+          industryType: (r as any).industry?.type || 'Unknown',
+          reportDate: r.reportDate.split('T')[0],
+          reportType: r.reportType,
+          complianceStatus: r.complianceStatus,
+          riskLevel: r.riskLevel,
+          activeViolations: r.activeViolations,
+          summary: r.description
+        }));
+
+        this.applyFilters();
+        this.loading = false;
+      },
+      error: (err: any) => {
+        console.error('Error loading reports:', err);
+        this.error = 'Failed to load reports. Make sure the API is running.';
+        this.loading = false;
+      }
+    });
+  }
+
+  loadReadings(isFirstLoad: boolean): void {
+    this.readingService.getAllReadings().subscribe({
+      next: (data: EnvironmentalReading[]) => {
+        if (isFirstLoad) {
+          // Baseline: mark everything currently in the DB as already seen
+          data.forEach(r => this.knownReadingIds.add(r.id));
+          this.allReadings = data;
+          return;
+        }
+
+        // Find readings that weren't there before -> new submissions
+        const newOnes = data.filter(r => !this.knownReadingIds.has(r.id));
+
+        if (newOnes.length > 0) {
+          newOnes.forEach(r => {
+            this.knownReadingIds.add(r.id);
+            this.notifications.unshift({
+              id: r.id,
+              name: r.submittedByName,
+              role: r.submittedByRole,
+              submittedAt: r.submittedAt
+            });
+          });
+        }
+
+        this.allReadings = data;
+      },
+      error: (err: any) => {
+        console.error('Error loading readings:', err);
+      }
+    });
+  }
+
+  toggleNotifications(): void {
+    this.showNotifications = !this.showNotifications;
+  }
+
+  dismissNotification(id: number): void {
+    this.notifications = this.notifications.filter(n => n.id !== id);
+  }
+
+  clearAllNotifications(): void {
+    this.notifications = [];
+    this.showNotifications = false;
   }
 
   applyFilters(): void {
@@ -112,8 +186,94 @@ export class AdminReports implements OnInit {
   }
 
   downloadReport(report: ComplianceReport): void {
-    alert(`Download started for report #${report.id} — ${report.industryName} (${report.reportDate})`);
-    // TODO: call this.reportService.downloadReport(report.id) once the API endpoint exists
+    const doc = new jsPDF();
+
+    doc.setFontSize(18);
+    doc.text('EnviroSafe Compliance Report', 14, 20);
+
+    doc.setFontSize(11);
+    doc.setTextColor(100);
+    doc.text(`Report #${report.id}`, 14, 28);
+
+    doc.setDrawColor(200);
+    doc.line(14, 32, 196, 32);
+
+    let y = 42;
+    const lineGap = 10;
+
+    const addRow = (label: string, value: string) => {
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(0);
+      doc.text(`${label}:`, 14, y);
+      doc.setFont('helvetica', 'normal');
+      doc.text(value, 60, y);
+      y += lineGap;
+    };
+
+    addRow('Industry', report.industryName);
+    addRow('Industry Type', report.industryType);
+    addRow('Report Type', report.reportType);
+    addRow('Report Date', report.reportDate);
+    addRow('Compliance Status', report.complianceStatus);
+    addRow('Risk Level', report.riskLevel);
+    addRow('Active Violations', String(report.activeViolations));
+
+    y += 4;
+    doc.setFont('helvetica', 'bold');
+    doc.text('Summary / Notes:', 14, y);
+    y += 8;
+    doc.setFont('helvetica', 'normal');
+    const summaryLines = doc.splitTextToSize(report.summary, 180);
+    doc.text(summaryLines, 14, y);
+
+    doc.save(`Report-${report.id}-${report.industryName}.pdf`);
+  }
+
+  downloadReading(reading: EnvironmentalReading): void {
+    const doc = new jsPDF();
+
+    doc.setFontSize(18);
+    doc.text('EnviroSafe Environmental Reading', 14, 20);
+
+    doc.setFontSize(11);
+    doc.setTextColor(100);
+    doc.text(`Reading #${reading.id}`, 14, 28);
+
+    doc.setDrawColor(200);
+    doc.line(14, 32, 196, 32);
+
+    let y = 42;
+    const lineGap = 10;
+
+    const addRow = (label: string, value: string) => {
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(0);
+      doc.text(`${label}:`, 14, y);
+      doc.setFont('helvetica', 'normal');
+      doc.text(value, 60, y);
+      y += lineGap;
+    };
+
+    addRow('Submitted By', reading.submittedByName);
+    addRow('Role', reading.submittedByRole);
+    addRow('Submitted At', new Date(reading.submittedAt).toLocaleString());
+    addRow('Air Quality', String(reading.airQuality));
+    addRow('Water pH', String(reading.waterPh));
+    addRow('Noise Level', String(reading.noiseLevel));
+    addRow('Temperature', String(reading.temperature));
+    addRow('Waste Disposal', reading.wasteDisposal);
+
+    if (reading.notes) {
+      y += 4;
+      doc.setFont('helvetica', 'bold');
+      doc.text('Notes:', 14, y);
+      y += 8;
+      doc.setFont('helvetica', 'normal');
+      const notesLines = doc.splitTextToSize(reading.notes, 180);
+      doc.text(notesLines, 14, y);
+    }
+
+    doc.save(`Reading-${reading.id}-${reading.submittedByName}.pdf`);
   }
 
   statusClass(status: string): string {

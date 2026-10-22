@@ -1,0 +1,45 @@
+<app-layout>
+  <div class="page">
+
+    <div class="header-card">
+      <div>
+        <h1>🔔 Notifications</h1>
+        <p>All notifications received for {{ industryName || 'your industry' }}</p>
+      </div>
+      <button class="mark-all" *ngIf="unreadCount > 0" (click)="markAllRead()">
+        Mark all as read
+      </button>
+    </div>
+
+    <p *ngIf="error" class="error">{{ error }}</p>
+
+    <div class="tabs">
+      <button [class.active]="filter === 'all'" (click)="filter = 'all'">
+        All ({{ notifications.length }})
+      </button>
+      <button [class.active]="filter === 'unread'" (click)="filter = 'unread'">
+        Unread ({{ unreadCount }})
+      </button>
+    </div>
+
+    <div class="panel">
+
+      <div class="empty" *ngIf="visible.length === 0 && !error">
+        <div class="empty-icon">📭</div>
+        <p>{{ filter === 'unread' ? 'No unread notifications.' : 'No notifications yet.' }}</p>
+      </div>
+
+      <div class="row" *ngFor="let n of visible"
+           [class.unread]="!n.isRead"
+           (click)="markRead(n)">
+        <span class="dot" [class.on]="!n.isRead"></span>
+        <div class="text">
+          <div class="msg">{{ n.message }}</div>
+          <small>{{ n.createdAt | date:'medium' }}</small>
+        </div>
+        <span class="state">{{ n.isRead ? 'Read' : 'New' }}</span>
+      </div>
+
+    </div>
+  </div>
+</app-layout>

@@ -1,11 +1,37 @@
 <app-admin-layout>
-
   <div class="page">
-
     <div class="page-header">
       <div>
         <h1>Reports</h1>
         <p class="subtitle">View, filter, and generate compliance reports across all industries</p>
+      </div>
+
+      <!-- Notification bell -->
+      <div class="notif-wrapper">
+        <button class="notif-bell" (click)="toggleNotifications()">
+          🔔
+          <span class="notif-count" *ngIf="notifications.length > 0">{{ notifications.length }}</span>
+        </button>
+
+        <div class="notif-dropdown" *ngIf="showNotifications">
+          <div class="notif-dropdown-header">
+            <span>New Employee Readings</span>
+            <button class="notif-clear" (click)="clearAllNotifications()" *ngIf="notifications.length > 0">Clear all</button>
+          </div>
+
+          <div class="notif-list" *ngIf="notifications.length > 0; else noNotifs">
+            <div class="notif-item" *ngFor="let n of notifications">
+              <span class="notif-text">
+                <strong>{{ n.name }}</strong> ({{ n.role }}) submitted a new reading
+              </span>
+              <button class="notif-dismiss" (click)="dismissNotification(n.id)">✕</button>
+            </div>
+          </div>
+
+          <ng-template #noNotifs>
+            <p class="notif-empty">No new notifications</p>
+          </ng-template>
+        </div>
       </div>
     </div>
 
@@ -52,6 +78,8 @@
       <button class="reset-btn" (click)="resetFilters()">Reset</button>
     </div>
 
+    <!-- Inspector Reports -->
+    <h2 class="section-heading">Inspector Reports</h2>
     <div class="report-list" *ngIf="filteredReports.length > 0; else noResults">
       <div class="report-card" *ngFor="let report of filteredReports">
 
@@ -99,6 +127,57 @@
       </div>
     </ng-template>
 
-  </div>
+    <!-- Employee Readings -->
+    <h2 class="section-heading">Employee Readings</h2>
+    <div class="report-list" *ngIf="allReadings.length > 0; else noReadings">
+      <div class="report-card reading-card" *ngFor="let reading of allReadings">
 
+        <div class="report-card-header">
+          <div class="report-title-group">
+            <div class="report-icon">🧪</div>
+            <div>
+              <h3>{{ reading.submittedByName }}</h3>
+              <p class="report-type-line">{{ reading.submittedByRole }} • Submitted {{ reading.submittedAt | date:'medium' }}</p>
+            </div>
+          </div>
+          <span class="badge" [ngClass]="reading.wasteDisposal === 'Proper' ? 'badge-compliant' : 'badge-noncompliant'">
+            {{ reading.wasteDisposal }} Disposal
+          </span>
+        </div>
+
+        <p class="report-summary" *ngIf="reading.notes">{{ reading.notes }}</p>
+
+        <div class="report-details">
+          <div class="detail-block">
+            <span class="detail-label">🌫 Air Quality</span>
+            <span class="detail-value">{{ reading.airQuality }}</span>
+          </div>
+          <div class="detail-block">
+            <span class="detail-label">💧 Water pH</span>
+            <span class="detail-value">{{ reading.waterPh }}</span>
+          </div>
+          <div class="detail-block">
+            <span class="detail-label">🔊 Noise Level</span>
+            <span class="detail-value">{{ reading.noiseLevel }}</span>
+          </div>
+          <div class="detail-block">
+            <span class="detail-label">🌡 Temperature</span>
+            <span class="detail-value">{{ reading.temperature }}</span>
+          </div>
+        </div>
+
+        <div class="report-actions">
+          <button class="download-btn" (click)="downloadReading(reading)">⬇ Download Report</button>
+        </div>
+
+      </div>
+    </div>
+
+    <ng-template #noReadings>
+      <div class="empty-state">
+        <p>No employee readings submitted yet.</p>
+      </div>
+    </ng-template>
+
+  </div>
 </app-admin-layout>

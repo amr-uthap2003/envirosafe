@@ -1,0 +1,118 @@
+<app-layout>
+  <div class="page">
+
+    <div class="hero">
+      <h1>Corrective Actions</h1>
+      <p>
+        Fixes planned for {{ info?.industryName || 'your industry' }}
+        <span class="type" *ngIf="info?.industryType">{{ info.industryType }}</span>
+      </p>
+    </div>
+
+    <ng-container *ngIf="info">
+
+      <div class="stats">
+        <div class="stat"><span>Open</span><strong class="bad">{{ count('Open') }}</strong></div>
+        <div class="stat"><span>In Progress</span><strong class="warn">{{ count('In Progress') }}</strong></div>
+        <div class="stat"><span>Completed</span><strong class="ok">{{ count('Completed') }}</strong></div>
+      </div>
+
+      <!-- Automatic suggestions from inspector reports -->
+      <div class="panel">
+        <div class="sug-head">
+          <h3>Suggested actions from inspector reports</h3>
+          <button class="add-all" *ngIf="suggestions.count > 0" (click)="addAllSuggested()">
+            Add all ({{ suggestions.count }})
+          </button>
+        </div>
+
+        <p class="small" *ngIf="suggestions.count === 0">
+          No new suggestions. Every report that needs action already has its corrective actions.
+        </p>
+
+        <div class="sug-report" *ngFor="let r of suggestions.reports">
+          <div class="sug-title">
+            <strong>Report #{{ r.reportId }} - {{ r.reportType }}</strong>
+            <span class="chip" [ngClass]="r.complianceStatus === 'Non-Compliant' ? 'c-bad' : r.complianceStatus === 'Under Review' ? 'c-warn' : 'c-ok'">{{ r.complianceStatus }}</span>
+            <span class="small">Risk: {{ r.riskLevel }} | Violations: {{ r.activeViolations }} | {{ r.reportDate | date:'d MMM y' }}</span>
+            <span class="chip" [ngClass]="priorityClass(r.priority)">{{ r.priority }} priority</span>
+          </div>
+
+          <div class="sug-row" *ngFor="let s of r.suggestions">
+            <span class="sug-text">{{ s.text }}</span>
+            <span class="small">Due {{ s.dueDate | date:'d MMM y' }}</span>
+            <button class="add-one" (click)="addSuggested(r, s)">Add</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Add a corrective action</h3>
+        <div class="add-row">
+          <select [(ngModel)]="target">
+            <option value="">
+              {{ (info.reports.length + info.readings.length) ? 'Select report or reading' : 'No reports yet' }}
+            </option>
+
+            <optgroup label="Inspector reports" *ngIf="info.reports.length">
+              <option *ngFor="let r of info.reports; trackBy: trackById" [value]="'R' + r.id">
+                #{{ r.id }} {{ r.reportType }} - {{ r.complianceStatus }} ({{ r.reportDate | date:'d MMM' }})
+              </option>
+            </optgroup>
+
+            <optgroup label="Employee readings" *ngIf="info.readings.length">
+              <option *ngFor="let x of info.readings; trackBy: trackById" [value]="'E' + x.id">
+                #{{ x.id }} by {{ x.submittedByName }} ({{ x.submittedAt | date:'d MMM' }}) - {{ violationsOf(x).length }} violation(s)
+              </option>
+            </optgroup>
+          </select>
+          <input type="text" placeholder="Describe the action" [(ngModel)]="description" />
+          <input type="date" [(ngModel)]="dueDate" />
+          <button (click)="addAction()" [disabled]="saving">{{ saving ? 'Saving...' : 'Add' }}</button>
+        </div>
+
+        <!-- messages shown right under the form -->
+        <p *ngIf="error" class="error" style="margin-top:12px">{{ error }}</p>
+        <p *ngIf="message" class="success" style="margin-top:12px">{{ message }}</p>
+      </div>
+
+      <div class="panel">
+        <h3>Actions for this industry</h3>
+        <p class="small" *ngIf="actions.length === 0">No corrective actions yet.</p>
+
+        <div class="table-wrap" *ngIf="actions.length > 0">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Description</th>
+                <th>Report</th>
+                <th>Due date</th>
+                <th>Status</th>
+                <th>Change status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let a of actions">
+                <td>{{ a.id }}</td>
+                <td>{{ a.description }}</td>
+                <td>{{ reportLabel(a.reportId) }}</td>
+                <td [class.bad]="isOverdue(a)">
+                  {{ a.dueDate | date:'d MMM y' }}
+                  <span class="late" *ngIf="isOverdue(a)">Overdue</span>
+                </td>
+                <td><span class="chip" [ngClass]="statusClass(a.status)">{{ a.status }}</span></td>
+                <td>
+                  <select [ngModel]="a.status" (ngModelChange)="setStatus(a, $event)">
+                    <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
+                  </select>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </ng-container>
+  </div>
+</app-layout>

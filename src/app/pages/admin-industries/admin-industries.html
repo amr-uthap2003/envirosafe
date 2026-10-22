@@ -7,7 +7,7 @@
         <h1>Manage Industries</h1>
         <p class="subtitle">View and manage all registered industries</p>
       </div>
-      <button class="add-btn">+ Add Industry</button>
+      <button class="add-btn" (click)="openAddModal()">+ Add Industry</button>
     </div>
 
     <div class="table-card">
@@ -20,6 +20,7 @@
             <th>Status</th>
             <th>Compliance</th>
             <th>Risk Level</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -42,11 +43,135 @@
             <td>
               <span [ngClass]="riskClass(ind.riskLevel)">{{ ind.riskLevel }}</span>
             </td>
+            <td>
+              <button class="edit-btn" (click)="openEditModal(ind)">Edit</button>
+              <button class="delete-btn" (click)="confirmDelete(ind)">Delete</button>
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
 
+  </div>
+
+  <!-- Add Industry Modal -->
+  <div class="modal-backdrop" *ngIf="showAddModal" (click)="closeAddModal()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <h3>Add New Industry</h3>
+
+      <div *ngIf="error" class="alert alert-error">{{ error }}</div>
+
+      <div class="form-group">
+        <label>Industry Name</label>
+        <input type="text" [(ngModel)]="newName" placeholder="e.g. Green Textile Industries" />
+      </div>
+
+      <div class="form-group">
+        <label>Type</label>
+        <input type="text" [(ngModel)]="newType" placeholder="e.g. Textile, Chemical Processing" />
+      </div>
+
+      <div class="form-group">
+        <label>Location</label>
+        <input type="text" [(ngModel)]="newLocation" placeholder="e.g. Kerala, India" />
+      </div>
+
+      <div class="form-group">
+        <label>Manager</label>
+        <input type="text" [(ngModel)]="newManager" placeholder="Leave blank for Unassigned" />
+      </div>
+
+      <div class="form-group">
+        <label>Status</label>
+        <select [(ngModel)]="newStatus">
+          <option value="Active">Active</option>
+          <option value="Inactive">Inactive</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Compliance</label>
+        <select [(ngModel)]="newCompliance">
+          <option value="Compliant">Compliant</option>
+          <option value="Non-Compliant">Non-Compliant</option>
+          <option value="Under Review">Under Review</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Risk Level</label>
+        <select [(ngModel)]="newRisk">
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+        </select>
+      </div>
+
+      <div class="modal-actions">
+        <button class="cancel-btn" (click)="closeAddModal()">Cancel</button>
+        <button class="add-btn" (click)="addIndustry()">Add Industry</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Industry Modal -->
+  <div class="modal-backdrop" *ngIf="showEditModal" (click)="closeEditModal()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <h3>Edit Industry</h3>
+
+      <div *ngIf="editError" class="alert alert-error">{{ editError }}</div>
+
+      <div class="form-group">
+        <label>Industry Name</label>
+        <input type="text" [(ngModel)]="editName" />
+      </div>
+
+      <div class="form-group">
+        <label>Type</label>
+        <input type="text" [(ngModel)]="editType" />
+      </div>
+
+      <div class="form-group">
+        <label>Location</label>
+        <input type="text" [(ngModel)]="editLocation" />
+      </div>
+
+      <div class="form-group">
+        <label>Manager</label>
+        <input type="text" [(ngModel)]="editManager" />
+      </div>
+
+      <div class="form-group">
+        <label>Status</label>
+        <select [(ngModel)]="editStatus">
+          <option value="Active">Active</option>
+          <option value="Inactive">Inactive</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Compliance</label>
+        <select [(ngModel)]="editCompliance">
+          <option value="Compliant">Compliant</option>
+          <option value="Non-Compliant">Non-Compliant</option>
+          <option value="Under Review">Under Review</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Risk Level</label>
+        <select [(ngModel)]="editRisk">
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+        </select>
+      </div>
+
+      <div class="modal-actions">
+        <button class="cancel-btn" (click)="closeEditModal()">Cancel</button>
+        <button class="add-btn" (click)="saveEdit()">Save Changes</button>
+      </div>
+    </div>
   </div>
 
 </app-admin-layout>

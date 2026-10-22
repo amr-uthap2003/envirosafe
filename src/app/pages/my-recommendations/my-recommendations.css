@@ -1,0 +1,28 @@
+.page {
+  padding: 24px;
+  font-family: Arial, sans-serif;
+}
+
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, #e8f5ec, #d3ecdc);
+  border-radius: 16px;
+  padding: 28px 32px;
+  margin-bottom: 8px;
+}
+
+  .hero h1 {
+    margin: 0 0 8px;
+    color: #053b27;
+  }
+
+  .hero p {
+    margin: 0;
+    color: #3d5c4c;
+  }
+
+.hero-icon {
+  font-size: 52px;
+}

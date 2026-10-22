@@ -1,0 +1,71 @@
+<app-layout>
+  <div class="page">
+
+    <div class="header-card">
+      <h1>Compliance Status</h1>
+      <p>{{ industryName }} — updated from employee readings and inspector reports</p>
+    </div>
+
+    <p *ngIf="error" class="error">{{ error }}</p>
+
+    <div class="cards">
+      <div class="card"><span>Proper Readings</span><strong class="ok">{{ properCount }}</strong></div>
+      <div class="card"><span>Improper Readings</span><strong [ngClass]="improperCount ? 'bad' : 'ok'">{{ improperCount }}</strong></div>
+      <div class="card"><span>Inspector Reports</span><strong>{{ inspections.length }}</strong></div>
+    </div>
+
+    <div class="panel">
+      <h3>Employee Readings</h3>
+      <p *ngIf="readings.length === 0" class="muted">No employee readings yet.</p>
+      <table *ngIf="readings.length > 0">
+        <thead>
+          <tr>
+            <th>Submitted By</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Issues</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let r of readings">
+            <td>{{ r.submittedByName }}</td>
+            <td>{{ r.submittedAt | date:'medium' }}</td>
+            <td><span class="badge" [ngClass]="r.status === 'Proper' ? 'b-ok' : 'b-bad'">{{ r.status }}</span></td>
+            <td>{{ r.problems.length ? r.problems.join(', ') : '-' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="panel">
+      <h3>Inspector Reports</h3>
+      <p *ngIf="inspections.length === 0" class="muted">No inspector reports yet.</p>
+      <table *ngIf="inspections.length > 0">
+        <thead>
+          <tr>
+            <th>Inspector</th>
+            <th>Date</th>
+            <th>Compliance Status</th>
+            <th>Risk</th>
+            <th>Violations</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let i of inspections">
+            <td>{{ i.submittedByName }}</td>
+            <td>{{ i.reportDate | date:'medium' }}</td>
+            <td>
+              <span class="badge"
+                    [ngClass]="i.complianceStatus === 'Compliant' ? 'b-ok' : i.complianceStatus === 'Non-Compliant' ? 'b-bad' : 'b-warn'">
+                {{ i.complianceStatus }}
+              </span>
+            </td>
+            <td>{{ i.riskLevel }}</td>
+            <td>{{ i.activeViolations }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</app-layout>

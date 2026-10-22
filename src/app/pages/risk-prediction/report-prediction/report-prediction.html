@@ -1,0 +1,83 @@
+<div class="panel">
+  <h3>Inspector report prediction</h3>
+
+  <p *ngIf="error" class="error">{{ error }}</p>
+  <p *ngIf="data && !data.hasData" class="small">{{ data.message }}</p>
+
+  <ng-container *ngIf="data?.hasData">
+
+    <div class="rp-grid">
+      <div><span class="label">Latest status</span><strong>{{ data.latestStatus }}</strong></div>
+      <div>
+        <span class="label">Predicted next report</span>
+        <strong [ngClass]="data.predictedStatus === 'Non-Compliant' ? 'bad' : data.predictedStatus === 'Under Review' ? 'warn' : 'ok'">
+          {{ data.predictedStatus }}
+        </strong>
+      </div>
+      <div><span class="label">Risk score</span><strong>{{ data.nonCompliantChance }}</strong></div>
+      <div>
+        <span class="label">Trend</span>
+        <strong [ngClass]="data.trend === 'Worsening' ? 'bad' : data.trend === 'Improving' ? 'ok' : ''">
+          {{ data.trend === 'Worsening' ? '▲' : data.trend === 'Improving' ? '▼' : '►' }} {{ data.trend }}
+        </strong>
+      </div>
+    </div>
+
+    <p class="small">
+      Last {{ data.reportCount }} reports: {{ data.compliant }} Compliant,
+      {{ data.underReview }} Under Review, {{ data.nonCompliant }} Non-Compliant.
+      Active violations in latest report: {{ data.activeViolations }}.
+    </p>
+
+    <h4 class="sub">Prediction for each report</h4>
+    <div class="table-wrap">
+      <table class="rp-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Date</th>
+            <th>Submitted by</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Violations</th>
+            <th>Predicted next status</th>
+            <th>Risk points</th>
+            <th>Trend</th>
+            <th>Actual next</th>
+            <th>Result</th>
+            <th>Rule applied</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let r of data.perReport; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ r.date | date:'medium' }}</td>
+            <td><strong>{{ r.submittedBy }}</strong></td>
+            <td><span class="role" [ngClass]="r.submittedRole === 'Employee' ? 'r-emp' : 'r-insp'">{{ r.submittedRole }}</span></td>
+            <td><span class="chip" [ngClass]="r.status === 'Non-Compliant' ? 'c-bad' : r.status === 'Under Review' ? 'c-warn' : 'c-ok'">{{ r.status }}</span></td>
+            <td>{{ r.activeViolations }}</td>
+            <td><span class="chip" [ngClass]="r.predictedNext === 'Non-Compliant' ? 'c-bad' : r.predictedNext === 'Under Review' ? 'c-warn' : 'c-ok'">{{ r.predictedNext }}</span></td>
+            <td>{{ r.nonCompliantChance }}</td>
+            <td [ngClass]="r.trend === 'Worsening' ? 'bad' : r.trend === 'Improving' ? 'ok' : ''">
+              {{ r.trend === 'Worsening' ? '▲' : r.trend === 'Improving' ? '▼' : '►' }} {{ r.trend }}
+            </td>
+            <td>{{ r.actualNext || 'Not yet submitted' }}</td>
+            <td>
+              <span *ngIf="r.correct === true" class="ok">✔ Correct</span>
+              <span *ngIf="r.correct === false" class="bad">✘ Missed</span>
+              <span *ngIf="r.correct === null" class="small">Pending</span>
+            </td>
+            <td class="small">{{ r.rule }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="small" *ngIf="data.checkedCount > 0">
+      Past predictions checked against what really happened: {{ data.correctCount }} of {{ data.checkedCount }} correct.
+    </p>
+    <p class="small">
+      Each row predicts the next report using only the reports up to that row. The last row's prediction is the one for the upcoming report.
+    </p>
+  </ng-container>
+</div>

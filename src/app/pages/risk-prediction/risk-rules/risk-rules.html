@@ -1,0 +1,29 @@
+<p *ngIf="error" class="error">{{ error }}</p>
+<p *ngIf="data && !data.hasData" class="notice">{{ data.message }}</p>
+
+<ng-container *ngIf="data?.hasData">
+
+  <div class="overall-card" [ngClass]="cls(data.overall)">
+    <span>Overall Risk Level</span>
+    <h2>{{ data.overall }}</h2>
+    <small>
+      {{ data.highCount }} High, {{ data.mediumCount }} Medium, {{ data.lowCount }} Low.
+      Based on the latest reading by {{ data.submittedBy }} ({{ data.readingTime | date:'medium' }}).
+    </small>
+  </div>
+
+  <table class="risk-table">
+    <thead>
+      <tr><th>Parameter</th><th>Value</th><th>Status</th><th>Reason</th></tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of data.items">
+        <td>{{ item.parameter }}</td>
+        <td>{{ item.value }}</td>
+        <td><span class="badge" [ngClass]="cls(item.status)">{{ item.status }}</span></td>
+        <td>{{ item.reason }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+</ng-container>

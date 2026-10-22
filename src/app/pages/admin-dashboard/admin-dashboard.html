@@ -7,6 +7,43 @@
         <h1>Admin Dashboard</h1>
         <p>Manage users, industries, and system-wide compliance settings</p>
       </div>
+
+      <div class="notification-bell-wrapper">
+        <button class="notification-bell" (click)="toggleNotificationPanel()">
+          🔔
+          <span class="notification-count" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
+        </button>
+
+        <div class="notification-panel" *ngIf="showNotificationPanel">
+          <div class="notification-panel-header">
+            <strong>Notifications</strong>
+            <button class="mark-all-btn" (click)="markAllRead()" *ngIf="unreadCount > 0">
+              Mark all as read
+            </button>
+          </div>
+
+          <div class="notification-scroll-area">
+            <div class="notification-list" *ngIf="notifications.length > 0; else noNotifications">
+              <div class="notification-row"
+                   *ngFor="let n of notifications"
+                   (click)="markNotificationRead(n)">
+                <span class="status-dot" [class.unread]="!n.isRead"></span>
+
+                <div class="notification-row-text">
+                  <span class="notification-title">{{ n.message }}</span>
+                  <span class="notification-time">{{ n.createdAt | date:'M/d/yy, h:mm a' }}</span>
+                </div>
+
+                <span class="notification-chevron">›</span>
+              </div>
+            </div>
+
+            <ng-template #noNotifications>
+              <div class="notification-empty">No notifications yet.</div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
     </header>
 
     <section class="welcome">

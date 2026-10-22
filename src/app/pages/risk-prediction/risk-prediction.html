@@ -5,7 +5,7 @@
     <div class="page-header">
       <div>
         <h1>Risk Prediction</h1>
-        <p class="subtitle">Rule-based risk classification from current sensor readings</p>
+        <p class="subtitle">Rule-based risk classification from the latest employee readings</p>
       </div>
 
       <a routerLink="/industry-manager-dashboard" class="back-btn">
@@ -13,29 +13,11 @@
       </a>
     </div>
 
-    <div class="overall-card" [ngClass]="getStatusClass(overallRisk)">
-      <span>Overall Risk Level</span>
-      <h2>{{ overallRisk }}</h2>
-    </div>
+    <!-- Live rule-based classification -->
+    <app-risk-rules></app-risk-rules>
 
-    <table class="risk-table">
-      <thead>
-        <tr>
-          <th>Parameter</th>
-          <th>Value</th>
-          <th>Status</th>
-          <th>Reason</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of riskItems">
-          <td>{{ item.parameter }}</td>
-          <td>{{ item.value }}</td>
-          <td><span class="badge" [ngClass]="getStatusClass(item.status)">{{ item.status }}</span></td>
-          <td>{{ item.reason }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <!-- Inspector report prediction -->
+    <app-report-prediction></app-report-prediction>
 
   </div>
 

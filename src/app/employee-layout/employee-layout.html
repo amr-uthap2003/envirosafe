@@ -7,10 +7,10 @@
     </div>
 
     <div class="profile">
-      <div class="avatar">E</div>
+      <div class="avatar">{{ avatarLetter }}</div>
       <div class="profile-info">
-        <h3>Employee</h3>
-        <p>Factory Staff</p>
+        <h3>{{ fullName }}</h3>
+        <p>{{ role }}</p>
       </div>
     </div>
 
@@ -33,6 +33,18 @@
          routerLinkActive="active">
         📄
         <span>My Submissions</span>
+      </a>
+
+      <a routerLink="/my-recommendations"
+         routerLinkActive="active">
+        💡
+        <span>Recommendations</span>
+      </a>
+
+      <a routerLink="/my-corrective-actions"
+         routerLinkActive="active">
+        🛠️
+        <span>Corrective Actions</span>
       </a>
 
     </nav>

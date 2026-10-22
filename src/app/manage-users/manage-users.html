@@ -1,1 +1,87 @@
-<p>manage-users works!</p>
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1>Manage Users</h1>
+      <p class="subtitle">View, filter, and manage all user accounts</p>
+    </div>
+    <button class="add-btn" (click)="addUser()">+ Add User</button>
+  </div>
+
+  <div class="success-message" *ngIf="successMessage">{{ successMessage }}</div>
+  <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+  <div class="filters-bar">
+    <input class="search-input"
+           type="text"
+           placeholder="Search by name or email..."
+           [(ngModel)]="searchTerm" />
+    <select class="filter-select" [(ngModel)]="roleFilter">
+      <option value="">All Roles</option>
+      <option *ngFor="let r of roles" [value]="r">{{ r | titlecase }}</option>
+    </select>
+  </div>
+
+  <div class="loading-state" *ngIf="isLoading">
+    <div class="loader"></div>
+    <p>Loading users...</p>
+  </div>
+
+  <div class="table-card" *ngIf="!isLoading">
+    <table class="users-table" *ngIf="filteredUsers.length > 0">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Assigned Industry</th>
+          <th>Manage Role</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of filteredUsers">
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td><span [class]="badgeClass(user.role)">{{ user.role | titlecase }}</span></td>
+
+          <td>
+            <div class="actions-cell">
+              <select class="role-select"
+                      [(ngModel)]="user.industry"
+                      (ngModelChange)="onIndustryChange(user, $event)"
+                      [disabled]="user.updating">
+                <option *ngFor="let ind of industries" [value]="ind">{{ ind }}</option>
+              </select>
+              <span class="updating-text" *ngIf="user.updating">Updating...</span>
+            </div>
+          </td>
+
+          <td>
+            <div class="actions-cell manage-role-cell">
+              <select class="role-select"
+                      [(ngModel)]="user.role"
+                      (ngModelChange)="onRoleChange(user, $event)"
+                      [disabled]="user.updating">
+                <option *ngFor="let r of roles" [value]="r">{{ r | titlecase }}</option>
+              </select>
+            </div>
+          </td>
+
+          <td>
+            <button class="delete-btn"
+                    [disabled]="user.updating"
+                    (click)="deleteUser(user)">
+              🗑
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="empty-state" *ngIf="filteredUsers.length === 0">
+      <div class="empty-icon">👤</div>
+      <h3>No users found</h3>
+      <p>Try adjusting your search or filter.</p>
+    </div>
+  </div>
+</div>

@@ -7,10 +7,10 @@
     </div>
 
     <div class="profile">
-      <div class="avatar">IM</div>
+      <div class="avatar">{{ initials }}</div>
       <div class="profile-info">
-        <h3>Radhika</h3>
-        <p>Industry Manager</p>
+        <h3>{{ userName }}</h3>
+        <p>{{ userRole }}</p>
       </div>
     </div>
 
@@ -29,16 +29,34 @@
         <span>Industries</span>
       </a>
 
+      <a routerLink="/environmental-data"
+         routerLinkActive="active">
+        🌱
+        <span>Environmental Data</span>
+      </a>
+
+      <a routerLink="/employee-readings"
+         routerLinkActive="active">
+        👥
+        <span>Employee Readings</span>
+      </a>
+
+      <a routerLink="/inspector-reports"
+         routerLinkActive="active">
+        📄
+        <span>Inspector Reports</span>
+      </a>
+
       <a routerLink="/compliance-standards"
          routerLinkActive="active">
         📋
         <span>Compliance Standards</span>
       </a>
 
-      <a routerLink="/environmental-data"
+      <a routerLink="/compliance-status"
          routerLinkActive="active">
-        🌱
-        <span>Environmental Data</span>
+        🛡️
+        <span>Compliance Status</span>
       </a>
 
       <a routerLink="/risk-prediction"
@@ -53,10 +71,24 @@
         <span>Recommendations</span>
       </a>
 
+      <a routerLink="/notifications"
+         routerLinkActive="active"
+         class="nav-item-with-badge">
+        🔔
+        <span>Notifications</span>
+        <span class="nav-badge" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
+      </a>
+
       <a routerLink="/reports"
          routerLinkActive="active">
         📑
         <span>Reports</span>
+      </a>
+
+      <a routerLink="/corrective-actions"
+         routerLinkActive="active">
+        ⚙️
+        <span>Corrective Actions</span>
       </a>
 
     </nav>

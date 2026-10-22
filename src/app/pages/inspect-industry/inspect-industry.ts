@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { InspectorLayout } from '../../inspector-layout/inspector-layout';
 import { IndustryService, IndustryModel } from '../../services/industry';
+import { ReportService } from '../../services/report';
 
 @Component({
   selector: 'app-inspect-industry',
@@ -22,10 +23,12 @@ export class InspectIndustry implements OnInit {
   complianceStatus: 'Compliant' | 'Non-Compliant' | 'Under Review' = 'Compliant';
   riskLevel: 'Low' | 'Medium' | 'High' = 'Low';
   violationNotes = '';
+  submitting = false;
 
   constructor(
     private router: Router,
-    private industryService: IndustryService
+    private industryService: IndustryService,
+    private reportService: ReportService
   ) { }
 
   ngOnInit(): void {
@@ -55,20 +58,37 @@ export class InspectIndustry implements OnInit {
       return;
     }
 
-    const selected = this.industries.find(i => i.id === this.selectedIndustryId);
+    const currentUserStr = localStorage.getItem('currentUser');
+    if (!currentUserStr) {
+      alert('You must be logged in to submit a report.');
+      this.router.navigate(['/login']);
+      return;
+    }
 
-    // TODO: replace with POST /api/inspections once backend exists
-    console.log('Submitting inspection:', {
+    const currentUser = JSON.parse(currentUserStr);
+
+    this.submitting = true;
+
+    this.reportService.submitReport({
       industryId: this.selectedIndustryId,
-      industryName: selected?.name,
-      complianceStatus: this.complianceStatus,
+      reportType: 'Incident Report',
+      description: this.violationNotes,
       riskLevel: this.riskLevel,
-      violationNotes: this.violationNotes,
-      inspectedAt: new Date().toISOString()
+      activeViolations: this.complianceStatus === 'Compliant' ? 0 : 1,
+      complianceStatus: this.complianceStatus,
+      submittedByUserId: currentUser.id,
+      submittedByName: currentUser.fullName
+    }).subscribe({
+      next: () => {
+        this.submitting = false;
+        alert('Inspection recorded successfully!');
+        this.router.navigate(['/my-inspections']);
+      },
+      error: (err: any) => {
+        this.submitting = false;
+        console.error('Error submitting report:', err);
+        alert('Failed to submit report. Please try again.');
+      }
     });
-
-    alert('Inspection recorded successfully!');
-    this.router.navigate(['/my-inspections']);
   }
 }
-

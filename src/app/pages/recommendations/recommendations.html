@@ -1,29 +1,137 @@
 <app-layout>
+  <div class="page">
 
-  <div class="rec-container">
-
-    <div class="page-header">
+    <div class="header-card">
       <div>
         <h1>Recommendations</h1>
-        <p class="subtitle">Corrective actions based on current compliance and risk data</p>
+        <p>
+          {{ industryName }}
+          <span class="type-badge" *ngIf="industryType">{{ industryType }}</span>
+        </p>
       </div>
 
-      <a routerLink="/industry-manager-dashboard" class="back-btn">
-        ← Back to Dashboard
-      </a>
+      <div class="picker">
+        <label for="view">Show recommendations for</label>
+        <select id="view" [(ngModel)]="selected">
+          <option value="employee">Employee Readings</option>
+          <option value="inspector">Inspector Reports</option>
+        </select>
+      </div>
     </div>
 
-    <div class="rec-list">
-      <div class="rec-card" *ngFor="let rec of recommendations">
-        <div class="rec-header">
-          <span class="badge" [ngClass]="getPriorityClass(rec.priority)">{{ rec.priority }}</span>
-          <span class="category">{{ rec.category }}</span>
+    <p *ngIf="error" class="error">{{ error }}</p>
+
+    <!-- ===================== EMPLOYEE READINGS ===================== -->
+    <ng-container *ngIf="selected === 'employee'">
+      <p *ngIf="readings.length === 0" class="muted">No employee readings yet.</p>
+
+      <div class="rec" *ngFor="let r of readings; trackBy: trackById"
+           [ngClass]="r.issues.length ? 'r-high' : 'r-low'">
+        <div class="rec-top">
+          <h3>👤 {{ r.submittedByName }}</h3>
+          <span class="badge">{{ r.issues.length ? 'Improper' : 'Proper' }}</span>
         </div>
-        <h3>{{ rec.title }}</h3>
-        <p>{{ rec.description }}</p>
+        <small>{{ r.submittedAt | date:'medium' }}</small>
+
+        <table>
+          <thead><tr><th>Parameter</th><th>Value</th><th>Result</th></tr></thead>
+          <tbody>
+            <tr *ngFor="let i of r.items">
+              <td>{{ i.parameter }}</td>
+              <td>{{ i.value }}</td>
+              <td [ngClass]="i.ok ? 'ok' : 'bad'">{{ i.ok ? '✔ Within limit' : '✖ Exceeded' }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Automatic recommendations (current) -->
+        <div *ngIf="r.issues.length > 0" class="advice-box">
+          <strong>Recommendations (automatic)</strong>
+          <ul>
+            <li *ngFor="let i of r.issues"><b>{{ i.parameter }}:</b> {{ i.advice }}</li>
+          </ul>
+        </div>
+        <div *ngIf="r.issues.length === 0" class="advice-box good">
+          <strong>All values are within limits.</strong>
+          <p>{{ preventiveTip }}</p>
+        </div>
+
+        <!-- Manual recommendations (new) -->
+        <div class="manual-box">
+          <strong>✍️ Manager's Recommendations</strong>
+
+          <p *ngIf="manualFor('Employee', r.id).length === 0" class="muted small">
+            None added yet.
+          </p>
+
+          <div class="manual-item" *ngFor="let m of manualFor('Employee', r.id)">
+            <div class="manual-text">{{ m.text }}</div>
+            <div class="manual-meta">
+              <small>{{ m.createdByName }} | {{ m.createdAt | date:'medium' }}</small>
+              <button class="del-btn" (click)="removeManual('Employee', r.id, m)">Delete</button>
+            </div>
+          </div>
+
+          <textarea rows="2" maxlength="1000"
+                    placeholder="Type your own recommendation for this reading..."
+                    [(ngModel)]="drafts['Employee-' + r.id]"></textarea>
+          <button class="add-btn"
+                  [disabled]="!(drafts['Employee-' + r.id] || '').trim()"
+                  (click)="addManual('Employee', r.id)">
+            Add Recommendation
+          </button>
+        </div>
       </div>
-    </div>
+    </ng-container>
+
+    <!-- ===================== INSPECTOR REPORTS ===================== -->
+    <ng-container *ngIf="selected === 'inspector'">
+      <p *ngIf="reports.length === 0" class="muted">No inspector reports yet.</p>
+
+      <div class="rec" *ngFor="let r of reports; trackBy: trackById"
+           [ngClass]="r.complianceStatus === 'Non-Compliant' ? 'r-high' : r.complianceStatus === 'Under Review' ? 'r-medium' : 'r-low'">
+        <div class="rec-top">
+          <h3>🕵️ {{ r.submittedByName }}</h3>
+          <span class="badge">{{ r.complianceStatus }}</span>
+        </div>
+        <small>{{ r.reportDate | date:'medium' }} | Risk: {{ r.riskLevel }} | Violations: {{ r.activeViolations }}</small>
+        <p *ngIf="r.description" class="desc">{{ r.description }}</p>
+
+        <!-- Automatic recommendations (current) -->
+        <div class="advice-box">
+          <strong>Recommendations (automatic)</strong>
+          <ul>
+            <li *ngFor="let t of r.tips">{{ t }}</li>
+          </ul>
+        </div>
+
+        <!-- Manual recommendations (new) -->
+        <div class="manual-box">
+          <strong>✍️ Manager's Recommendations</strong>
+
+          <p *ngIf="manualFor('Inspector', r.id).length === 0" class="muted small">
+            None added yet.
+          </p>
+
+          <div class="manual-item" *ngFor="let m of manualFor('Inspector', r.id)">
+            <div class="manual-text">{{ m.text }}</div>
+            <div class="manual-meta">
+              <small>{{ m.createdByName }} | {{ m.createdAt | date:'medium' }}</small>
+              <button class="del-btn" (click)="removeManual('Inspector', r.id, m)">Delete</button>
+            </div>
+          </div>
+
+          <textarea rows="2" maxlength="1000"
+                    placeholder="Type your own recommendation for this report..."
+                    [(ngModel)]="drafts['Inspector-' + r.id]"></textarea>
+          <button class="add-btn"
+                  [disabled]="!(drafts['Inspector-' + r.id] || '').trim()"
+                  (click)="addManual('Inspector', r.id)">
+            Add Recommendation
+          </button>
+        </div>
+      </div>
+    </ng-container>
 
   </div>
-
 </app-layout>
